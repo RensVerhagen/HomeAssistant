@@ -1,0 +1,269 @@
+homeassistant:
+  # Name of the location where Home Assistant is running
+  name: Home
+  # Location required to calculate the time the sun rises and sets
+  latitude: !secret home_latitude 
+  longitude: !secret home_longitude
+  # Impacts weather/sunrise data (altitude above sea level in meters)
+  elevation: 0
+  # metric for Metric, imperial for Imperial
+  unit_system: metric
+  # Pick yours from here: http://en.wikipedia.org/wiki/List_of_tz_database_time_zones
+  time_zone: Europe/Amsterdam
+  # Include homeassistant customizations:
+  customize: !include customize.yaml
+  # Trusting localhost and devices on local network
+  auth_providers:
+  - type: homeassistant
+  - type: trusted_networks
+    trusted_networks:
+     - 127.0.0.1
+     - !secret router_ip_range
+
+### Include dependent files ###
+group: !include groups.yaml
+automation: !include automations.yaml
+script: !include scripts.yaml
+
+### Set log level ###
+logger:
+  default: warning
+  #log levels critical, fatal, error, warning, warn, info, debug, notset
+
+http:
+  server_port: !secret hassio_server_port
+  base_url: !secret hassio_ip
+  use_x_forwarded_for: true
+  trusted_proxies:
+    - !secret synology_ip
+  ip_ban_enabled: true
+  login_attempts_threshold: 20
+  # 13-2-2019 RV: Deactivated SSL, because of reverse proxy setup on Synology NAS
+  #ssl_certificate: !secret ssl_certificate_location
+  #ssl_key: !secret ssl_key_location
+
+# Show links to resources in log and frontend
+# Disabled 'Welcom Card'
+# introduction:
+
+### GUI ###
+# Enables the frontend
+frontend:
+
+# Makes these websites available as entities 
+weblink:
+  entities:
+    - name: Router
+      url: !secret router_url
+      icon: mdi:router-wireless
+    - name: Node-Red
+      url: !secret nodered_url
+      icon: mdi:shuffle-variant
+    - name: Synology Nas
+      url: !secret synology_url
+      icon: mdi:nas
+
+# Enables configuration UI
+config:
+
+# Checks for available updates
+# Note: This component will send some information about your system to
+# the developers to assist with development of Home Assistant.
+# For more information, please see:
+# https://home-assistant.io/blog/2016/10/25/explaining-the-updater/
+updater:
+  # Optional, allows Home Assistant developers to focus on popular components.
+  # include_used_components: true
+
+# Discover some devices automatically
+discovery:
+
+# Displays system health in the Developer Tools 
+system_health:
+
+# Allows you to issue voice commands from the frontend in enabled browsers
+conversation:
+
+# Enables support for tracking state changes over time
+history:
+
+# View all events in a logbook
+logbook:
+
+# Enables a map showing the location of tracked devices
+map:
+
+# Track the sun
+sun:
+
+zone:
+  name: Work Rens
+  latitude: !secret work_rens_latitude
+  longitude: !secret work_rens_longitude
+  radius: 180
+  icon: mdi:worker
+
+# Weather
+weather:
+  - platform: buienradar
+    name: 'station_home'
+    forecast: true
+
+# Sensors
+sensor:
+  # External IP Address
+  - platform: dnsip
+  # Synology NAS statistics
+  - platform: synologydsm
+    host: !secret synology_ip
+    username: !secret synology_user
+    password: !secret synology_password
+    monitored_conditions:
+      - cpu_total_load
+      - memory_real_usage
+      - network_up
+      - network_down
+      - disk_status
+      - volume_size_used
+  # Google Maps Travel Distance
+  # Deactivated because of error: "REQUEST_DENIED (API keys with referer restrictions cannot be used with this API.)"
+  # Need to activate the travel distance API in google console (add payment subscription)
+  #- platform: google_travel_time
+  #  name: Rens to Home
+  #  api_key: !secret google_apikey_maps
+  #  origin: !secret device_rens_geo
+  #  destination: zone.home
+  #  options:
+  #    mode: driving
+  #    language: nl
+
+
+# Check if users are at home via netgear router connection 
+device_tracker:
+  - platform: netgear
+    host: !secret router_ip
+    username: !secret router_username
+    password: !secret router_password
+    # Check every minute for new devices
+    interval_seconds: 60
+    # Wait atleast 5 minutes before setting away status
+    consider_home: 0:05
+    new_device_defaults:
+      track_new_devices: true
+      hide_if_away: true
+  # Track Rens via secondary Google Account
+  - platform: google_maps
+    username: !secret google2_username
+    # Deactivated password since this isn't supported anymore https://www.home-assistant.io/components/google_maps/
+    # password: !secret google2_password
+    max_gps_accuracy: 500
+
+# Text to speech
+tts:
+  - platform: google_translate
+    service_name: google_say
+    language: 'nl'
+    base_url: !secret hassio_url
+
+# Cloud
+cloud:
+
+# Components
+climate:
+  platform: nest
+
+# Google Assistant
+google_assistant:
+  project_id: !secret google_projectid
+  api_key: !secret google_apikey
+  expose_by_default: false
+  entity_config:
+    scene.gotosleep:
+      name: Naar bed
+      expose: true
+      aliases:
+        - Weltrusten
+        - Ga slapen
+
+# Nest Thermostat
+nest:
+  client_id: !secret nest_id
+  client_secret: !secret nest_secret
+
+# Pushbullet
+notify:
+  - name: notify_pushbullet
+    platform: pushbullet
+    api_key: !secret pushbullet_apikey
+
+### Custom Scenes ###
+scene:
+  - name: gotosleep
+    entities:
+      input_boolean.sleeping: true      
+
+### Custom Fields ###
+input_boolean:
+  # Guest at home input boolean
+  guest_home:
+    name: Gast
+    initial: off
+    icon: mdi:human-male-female
+  # Boolean to determine if somebody is Home
+  home_presence:
+    name: Thuis
+    icon: mdi:home-account
+  # Boolean to use for Go to Bed scenario
+  sleeping:
+    name: Slapen
+    icon: mdi:hotel
+    initial: off
+  # Holiday mode
+  holiday_mode:
+    name: Vakantie modus
+    icon: mdi:beach
+
+input_select:
+  # Harmony hub activity picklist, see 'harmony_harmony_hub.conf' for available activities
+  harmony_activity:
+    name: Harmony Activity
+    icon: mdi:remote
+    # initial: PowerOff
+    options:
+      - PowerOff
+      - Tv kijken
+      - Films & Series
+      - Chromecast
+      - Afspelen PS4
+
+input_number:
+  # Harmony hub volume level
+  harmony_volume:
+    icon: mdi:volume-high
+    name: Volume
+    # initial: 30
+    min: 1
+    max: 100
+    step: 1
+
+### Hass.io Database ###
+# Recorder, controlling where the Logs / Activites are stored
+recorder:
+  # keep the last 2 weeks of data
+  purge_keep_days: 14
+  # run the purge job every 1 days
+  purge_interval: 1
+  # data is written to mariadb running on Synology NAS
+  db_url: !secret mariadb_url
+  # exclude the following entities of logging:
+  # exclude:
+  #  entities:
+    # Excluding router sensors, deactivated didn't seem to work, so commented exlusion out.
+     # - sensor.r7000_gateway_packets_sec_received
+     # - sensor.r7000_gateway_bytes_received
+     # - sensor.r7000_gateway_bytes_sent
+     # - sensor.r7000_gateway_kbyte_sec_received
+     # - sensor.r7000_gateway_packets_received
+     # - sensor.r7000_gateway_kbyte_sec_sent
+     # - sensor.r7000_gateway_packets_sec_sent
+     # - sensor.r7000_gateway_packets_sent

@@ -1,0 +1,24 @@
+# Example .gitignore file for your config dir.
+# A * ensures that everything will be ignored.
+*
+
+# You can whitelist files/folders with !, these will not be ignored.
+!*.yaml
+!*.md
+!.gitignore
+!harmony_harmony_hub.conf
+
+# Ignore the following folders.
+.cloud
+.google.token
+.storage
+.vscode
+deps
+letsencrypt
+node-red
+tts
+
+# Ensure these YAML files with sensetive data are ignored.
+ip_bans.yaml
+secrets.yaml
+known_devices.yaml
