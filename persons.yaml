@@ -1,15 +1,15 @@
-# Person component where multiple device trackers can be used for a single person
-# documentation: https://www.home-assistant.io/components/person/
-person:
-  - name: Rens
-    id: person_id_Rens
-    user_id: ef189400ebd648cca967c8e72e5a53e5
-    device_trackers:
-      - device_tracker.rens_galaxys9
-      - device_tracker.google_maps_108610494845487040013
+# Person 
+# Component where multiple device trackers can be used for a single person, documentation: https://www.home-assistant.io/components/person/
 
-  - name: Nathasja
-    id: person_id_Nathasja
-    user_id: c7872a9d62c2438bba9c11f428251999
-    device_trackers:
-      - device_tracker.nathasja_motorolag5
+- name: Rens
+  id: person_id_Rens
+  user_id: ef189400ebd648cca967c8e72e5a53e5
+  device_trackers:
+    - device_tracker.rens_galaxys9
+    - device_tracker.google_maps_108610494845487040013
+
+- name: Nathasja
+  id: person_id_Nathasja
+  user_id: c7872a9d62c2438bba9c11f428251999
+  device_trackers:
+    - device_tracker.nathasja_motorolag5
