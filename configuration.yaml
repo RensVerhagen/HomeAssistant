@@ -24,6 +24,7 @@ homeassistant:
 group: !include groups.yaml
 automation: !include automations.yaml
 script: !include scripts.yaml
+person: !include persons.yaml
 
 ### Set log level ###
 logger:
