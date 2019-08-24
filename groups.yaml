@@ -1,0 +1,8 @@
+### Groups ###
+
+All_Persons:
+  name: Personen
+  view: false
+  entities:
+    - person.nathasja
+    - person.rens
