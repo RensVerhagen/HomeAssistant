@@ -7,6 +7,7 @@
 !*.md
 !.gitignore
 !harmony_harmony_hub.conf
+!.travis.yml
 
 # Ignore the following folders.
 .cloud
