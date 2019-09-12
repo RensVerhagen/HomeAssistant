@@ -6,7 +6,6 @@
 !*.yaml
 !*.md
 !.gitignore
-!harmony_harmony_hub.conf
 !.travis.yml
 
 # Ignore the following folders.
@@ -23,3 +22,6 @@ tts
 ip_bans.yaml
 secrets.yaml
 known_devices.yaml
+
+# Ignore the following files as these get updated by Home Assistant
+harmony_harmony_hub.conf

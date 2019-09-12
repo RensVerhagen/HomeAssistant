@@ -191,6 +191,12 @@ nest:
   client_id: !secret nest_id
   client_secret: !secret nest_secret
 
+#Xiaomi Roborock
+vacuum:
+  - platform: xiaomi_miio
+    host: 192.168.2.28
+    token: !secret roborock_token
+
 # Pushbullet
 notify:
   - name: notify_pushbullet
