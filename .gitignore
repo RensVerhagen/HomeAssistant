@@ -25,3 +25,5 @@ known_devices.yaml
 
 # Ignore the following files as these get updated by Home Assistant
 harmony_harmony_hub.conf
+.HA_VERSION
+home-assistant.log
