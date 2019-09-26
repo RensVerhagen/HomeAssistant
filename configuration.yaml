@@ -126,6 +126,12 @@ sensor:
       - network_down
       - disk_status
       - volume_size_used
+  # Travis-CI Sensor for continues integration
+  - platform: travisci
+    api_key: !secret travis_token
+    branch: master
+    repository: HomeAssistant
+  #  
   # Google Maps Travel Distance
   # Deactivated because of error: "REQUEST_DENIED (API keys with referer restrictions cannot be used with this API.)"
   # Need to activate the travel distance API in google console (add payment subscription)
