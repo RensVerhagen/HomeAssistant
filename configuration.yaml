@@ -52,17 +52,18 @@ http:
 frontend:
 
 # Makes these websites available as entities 
-weblink:
-  entities:
-    - name: Router
-      url: !secret router_url
-      icon: mdi:router-wireless
-    - name: Node-Red
-      url: !secret nodered_url
-      icon: mdi:shuffle-variant
-    - name: Synology Nas
-      url: !secret synology_url
-      icon: mdi:nas
+# Deprecated
+# weblink:
+#  entities:
+#    - name: Router
+#      url: !secret router_url
+#      icon: mdi:router-wireless
+#    - name: Node-Red
+#      url: !secret nodered_url
+#      icon: mdi:shuffle-variant
+#    - name: Synology Nas
+#      url: !secret synology_url
+#      icon: mdi:nas
 
 # Enables configuration UI
 config:
