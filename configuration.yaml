@@ -161,7 +161,7 @@ device_tracker:
     consider_home: 0:05
     new_device_defaults:
       track_new_devices: true
-      hide_if_away: true
+      # hide_if_away: true  //Deprecated with upgrade to 0.107
   # Track Rens via secondary Google Account
   - platform: google_maps
     username: !secret google2_username
