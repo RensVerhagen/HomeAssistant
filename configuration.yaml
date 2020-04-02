@@ -52,7 +52,7 @@ http:
 frontend:
 
 # Makes these websites available as entities 
-# Deprecated
+# Deprecated with upgrade to 0.107
 # weblink:
 #  entities:
 #    - name: Router
@@ -183,14 +183,15 @@ climate:
 # Google Assistant
 google_assistant:
   project_id: !secret google_projectid
-  api_key: !secret google_apikey
+  # api_key: !secret google_apikey  deprecated in 0.107
+  service_account: !include GoogleAssistant-key.json
   expose_by_default: false
   entity_config:
     scene.gotosleep:
       name: Naar bed
       expose: true
       aliases:
-        - Weltrusten
+        - Bedtijd
         - Ga slapen
 
 # Nest Thermostat
