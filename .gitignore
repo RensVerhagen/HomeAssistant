@@ -7,6 +7,7 @@
 !*.md
 !.gitignore
 !.travis.yml
+!GoogleAssistant-key_dummy.json
 
 # Ignore the following folders.
 .cloud
@@ -22,6 +23,7 @@ tts
 ip_bans.yaml
 secrets.yaml
 known_devices.yaml
+GoogleAssistant-key.json
 
 # Ignore the following files as these get updated by Home Assistant
 harmony_harmony_hub.conf
