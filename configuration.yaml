@@ -20,6 +20,9 @@ homeassistant:
      - 127.0.0.1
      - !secret router_ip_range
 
+### Use default configuration options ### https://www.home-assistant.io/integrations/default_config/ 
+default_config:
+
 ### Include dependent files ###
 group: !include groups.yaml
 automation: !include automations.yaml

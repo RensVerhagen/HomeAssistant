@@ -13,6 +13,7 @@ python:
 
 before_install:
   - cp secrets_dummy.yaml secrets.yaml
+  - cp GoogleAssistant-key_dummy.json GoogleAssistant-key.json
   - touch home-assistant_v2.db
   - touch home-assistant.log
 
