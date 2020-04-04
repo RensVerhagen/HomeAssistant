@@ -6,10 +6,10 @@
   user_id: ef189400ebd648cca967c8e72e5a53e5
   device_trackers:
     - device_tracker.rens_galaxys9
-    - device_tracker.google_maps_108610494845487040013
+    - device_tracker.sm_g960f # HomeAssistant Mobile App
 
 - name: Nathasja
   id: person_id_Nathasja
   user_id: c7872a9d62c2438bba9c11f428251999
   device_trackers:
-    - device_tracker.nathasja_motorolag5
+    - device_tracker.redminote8t_redmi
