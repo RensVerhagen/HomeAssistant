@@ -202,11 +202,16 @@ nest:
   client_id: !secret nest_id
   client_secret: !secret nest_secret
 
-#Xiaomi Roborock
+# Xiaomi Roborock
 vacuum:
   - platform: xiaomi_miio
     host: 192.168.2.28
     token: !secret roborock_token
+
+# Tesla Model 3
+tesla:
+  username: !secret tesla_username
+  password: !secret tesla_password
 
 # Pushbullet
 notify:
