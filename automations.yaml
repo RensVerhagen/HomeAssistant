@@ -1,1 +1,13 @@
-[]
+- id: '1587894913273'
+  alias: Master Branch Passed
+  description: When the Master Branch passes in Travis-CI do a Pull from Github
+  trigger:
+  - entity_id: sensor.rensverhagen_homeassistant_state
+    from: started
+    platform: state
+    to: passed
+  condition: []
+  action:
+  - data:
+      addon: core_git_pull
+    service: hassio.addon_start
