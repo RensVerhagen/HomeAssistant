@@ -12,5 +12,6 @@
   id: person_id_Nathasja
   user_id: c7872a9d62c2438bba9c11f428251999
   device_trackers:
-    - device_tracker.Nathasja_Note8t # Netgear wifi tracker for Xiaomi Redmi Note8
+    # Disabled wifi tracking because of false 'awaý' reporting
+    #- device_tracker.Nathasja_Note8t # Netgear wifi tracker for Xiaomi Redmi Note8
     - device_tracker.redminote8t_redmi # HomeAssistant Mobile App for Xiaomi Redmi Note8
