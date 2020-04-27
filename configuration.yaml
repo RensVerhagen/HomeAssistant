@@ -160,14 +160,8 @@ device_tracker:
     # Wait atleast 5 minutes before setting away status
     consider_home: 0:05
     new_device_defaults:
-      track_new_devices: true
+      track_new_devices: false # New devices won't be tracked by default -> change trakcing per device in the known_devices.yaml
       # hide_if_away: true  //Deprecated with upgrade to 0.107
-  # Track Rens via secondary Google Account
-  - platform: google_maps
-    username: !secret google2_username
-    # Deactivated password since this isn't supported anymore https://www.home-assistant.io/components/google_maps/
-    # password: !secret google2_password
-    max_gps_accuracy: 500
 
 # Text to speech
 tts:
