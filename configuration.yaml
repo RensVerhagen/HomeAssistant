@@ -222,8 +222,12 @@ notify:
 recorder:
   # keep the last 2 weeks of data
   purge_keep_days: 14
-  # run the purge job every 1 days
-  purge_interval: 1
+  # automatically purge the database every night based on the purge_keep_days
+  auto_purge: true
+  # The max amount of times, the recorder retries to connect to the database
+  db_max_retries: 6
+  #The time in seconds, that the recorder sleeps when trying to connect to the database
+  db_retry_wait: 20
   # data is written to mariadb running on Synology NAS
   db_url: !secret mariadb_url
   # exclude the following entities of logging:
