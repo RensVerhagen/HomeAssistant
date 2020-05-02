@@ -1,21 +1,20 @@
 ### Custom Input Boolean fields ###
 
-input_boolean:
-  # Guest at home input boolean
-  guest_home:
-    name: Gast
-    initial: off
-    icon: mdi:human-male-female
-  # Boolean to determine if somebody is Home
-  home_presence:
-    name: Thuis
-    icon: mdi:home-account
-  # Boolean to use for Go to Bed scenario
-  sleeping:
-    name: Slapen
-    icon: mdi:hotel
-    initial: off
-  # Holiday mode
-  holiday_mode:
-    name: Vakantie modus
-    icon: mdi:beach
+# Guest at home input boolean
+guest_home:
+  name: Gast
+  initial: off
+  icon: mdi:human-male-female
+# Boolean to determine if somebody is Home
+home_presence:
+  name: Thuis
+  icon: mdi:home-account
+# Boolean to use for Go to Bed scenario
+sleeping:
+  name: Slapen
+  icon: mdi:hotel
+  initial: off
+# Holiday mode
+holiday_mode:
+  name: Vakantie modus
+  icon: mdi:beach
