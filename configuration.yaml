@@ -26,6 +26,7 @@ automation: !include automations.yaml
 script: !include scripts.yaml
 person: !include persons.yaml
 scene: !include scenes.yaml
+sensor: !include config_files/sensor.yaml
 input_boolean: !include config_files/input_boolean.yaml
 input_select: !include config_files/input_select.yaml
 input_number: !include config_files/input_number.yaml
@@ -70,42 +71,6 @@ weather:
   - platform: buienradar
     name: 'station_home'
     forecast: true
-
-# Sensors
-sensor:
-  # External IP Address
-  - platform: dnsip
-  # 2020-05-02 Replaced with standard integration from UI
-  # Synology NAS statistics
-  # - platform: synologydsm
-  #   host: !secret synology_ip
-  #   username: !secret synology_user
-  #   password: !secret synology_password
-  #   monitored_conditions:
-  #     - cpu_total_load
-  #     - memory_real_usage
-  #     - network_up
-  #     - network_down
-  #     - disk_status
-  #     - volume_size_used
-  # Travis-CI Sensor for continues integration
-  - platform: travisci
-    api_key: !secret travis_token
-    branch: master
-    repository: HomeAssistant
-  #  
-  # Google Maps Travel Distance
-  # Deactivated because of error: "REQUEST_DENIED (API keys with referer restrictions cannot be used with this API.)"
-  # Need to activate the travel distance API in google console (add payment subscription)
-  #- platform: google_travel_time
-  #  name: Rens to Home
-  #  api_key: !secret google_apikey_maps
-  #  origin: !secret device_rens_geo
-  #  destination: zone.home
-  #  options:
-  #    mode: driving
-  #    language: nl
-
 
 # Check if users are at home via netgear router connection 
 device_tracker:
