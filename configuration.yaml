@@ -122,18 +122,19 @@ weather:
 sensor:
   # External IP Address
   - platform: dnsip
+  # 2020-05-02 Replaced with standard integration from UI
   # Synology NAS statistics
-  - platform: synologydsm
-    host: !secret synology_ip
-    username: !secret synology_user
-    password: !secret synology_password
-    monitored_conditions:
-      - cpu_total_load
-      - memory_real_usage
-      - network_up
-      - network_down
-      - disk_status
-      - volume_size_used
+  # - platform: synologydsm
+  #   host: !secret synology_ip
+  #   username: !secret synology_user
+  #   password: !secret synology_password
+  #   monitored_conditions:
+  #     - cpu_total_load
+  #     - memory_real_usage
+  #     - network_up
+  #     - network_down
+  #     - disk_status
+  #     - volume_size_used
   # Travis-CI Sensor for continues integration
   - platform: travisci
     api_key: !secret travis_token
@@ -164,8 +165,7 @@ device_tracker:
     # Wait atleast 5 minutes before setting away status
     consider_home: 0:05
     new_device_defaults:
-      track_new_devices: false # New devices won't be tracked by default -> change trakcing per device in the known_devices.yaml
-      # hide_if_away: true  //Deprecated with upgrade to 0.107
+      track_new_devices: false # New devices won't be tracked by default -> change tracking per device in the known_devices.yaml
 
 # Text to speech
 tts:
