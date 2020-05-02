@@ -1,0 +1,6 @@
+### Config file for all Scenes ###
+scene:
+  - id: gotosleep
+    name: gotosleep
+    entities:
+      input_boolean.sleeping: true

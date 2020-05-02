@@ -28,6 +28,7 @@ group: !include groups.yaml
 automation: !include automations.yaml
 script: !include scripts.yaml
 person: !include persons.yaml
+scene: !include scenes.yaml
 
 ### Set log level ###
 logger:
@@ -212,12 +213,6 @@ notify:
   - name: notify_pushbullet
     platform: pushbullet
     api_key: !secret pushbullet_apikey
-
-### Custom Scenes ###
-scene:
-  - name: gotosleep
-    entities:
-      input_boolean.sleeping: true      
 
 ### Custom Fields ###
 input_boolean:
