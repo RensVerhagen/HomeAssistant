@@ -11,7 +11,7 @@ homeassistant:
   # Pick yours from here: http://en.wikipedia.org/wiki/List_of_tz_database_time_zones
   time_zone: Europe/Amsterdam
   # Include homeassistant customizations:
-  customize: !include customize.yaml
+  customize: !include config_files/customize.yaml
   # Trusting localhost and devices on local network
   auth_providers:
   - type: homeassistant
@@ -19,9 +19,6 @@ homeassistant:
     trusted_networks:
      - 127.0.0.1
      - !secret router_ip_range
-
-### Use default configuration options ### https://www.home-assistant.io/integrations/default_config/ 
-default_config:
 
 ### Include dependent files ###
 group: !include groups.yaml
@@ -38,6 +35,7 @@ logger:
   default: warning
   #log levels critical, fatal, error, warning, warn, info, debug, notset
 
+### Http access setup ###
 http:
   server_port: !secret hassio_server_port
   base_url: !secret hassio_ip
@@ -50,47 +48,16 @@ http:
   #ssl_certificate: !secret ssl_certificate_location
   #ssl_key: !secret ssl_key_location
 
-# Show links to resources in log and frontend
-# Disabled 'Welcom Card'
-# introduction:
-
-### GUI ###
-# Enables the frontend
-frontend:
-
-# Enables configuration UI
-config:
-
-# Checks for available updates
-# Note: This component will send some information about your system to
-# the developers to assist with development of Home Assistant.
-# For more information, please see:
-# https://home-assistant.io/blog/2016/10/25/explaining-the-updater/
-updater:
-  # Optional, allows Home Assistant developers to focus on popular components.
-  # include_used_components: true
+### Enables default configuration options ### https://www.home-assistant.io/integrations/default_config/ 
+default_config:
 
 # Discover some devices automatically
 discovery:
 
-# Displays system health in the Developer Tools 
-system_health:
-
 # Allows you to issue voice commands from the frontend in enabled browsers
 conversation:
 
-# Enables support for tracking state changes over time
-history:
-
-# View all events in a logbook
-logbook:
-
-# Enables a map showing the location of tracked devices
-map:
-
-# Track the sun
-sun:
-
+# Zones
 zone:
   name: Work Rens
   latitude: !secret work_rens_latitude
@@ -159,9 +126,6 @@ tts:
     service_name: google_say
     language: 'nl'
     base_url: !secret hassio_url
-
-# Cloud
-cloud:
 
 # Components
 climate:
