@@ -208,8 +208,8 @@ notify:
 recorder:
   # keep the last 2 weeks of data
   purge_keep_days: 14
-  # automatically purge the database every night based on the purge_keep_days
-  auto_purge: true
+  # automatically purge the database every night based on the purge_keep_days, default is true
+  # auto_purge: true
   # The max amount of times, the recorder retries to connect to the database
   db_max_retries: 6
   #The time in seconds, that the recorder sleeps when trying to connect to the database
