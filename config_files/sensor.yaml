@@ -15,10 +15,60 @@
       voordeur_last_open:
         entity_id: binary_sensor.voordeur
         friendly_name: "Voordeur laatst open"
-        device_class: timestamp
-        value_template: "{{ states.binary_sensor.voordeur.last_changed.strftime('%H:%M')}}"
+        value_template: >-
+          {% if is_state('binary_sensor.voordeur', 'on') %}
+            Open
+          {% else %}
+            {{ states.binary_sensor.voordeur.last_changed.strftime('%H:%M')}}
+          {% endif %}
+        icon_template: >-
+          {% if is_state('binary_sensor.voordeur', 'on') %}
+            mdi:door-open
+          {% else %}
+            mdi:door-closed
+          {% endif %}
       achterdeur_last_open:
         entity_id: binary_sensor.achterdeur
         friendly_name: "Achterdeur laatst open"
-        device_class: timestamp
-        value_template: "{{ states.binary_sensor.achterdeur.last_changed.strftime('%H:%M')}}"
+        value_template: >-
+          {% if is_state('binary_sensor.achterdeur', 'on') %}
+            Open
+          {% else %}
+            {{ states.binary_sensor.achterdeur.last_changed.strftime('%H:%M')}}
+          {% endif %}
+        icon_template: >-
+          {% if is_state('binary_sensor.achterdeur', 'on') %}
+            mdi:door-open
+          {% else %}
+            mdi:door-closed
+          {% endif %}
+      woonkamer_last_presence:
+        entity_id: binary_sensor.woonkamer_presence
+        friendly_name: "Woonkamer aanwezigheid"
+        value_template: >-
+          {% if is_state('binary_sensor.woonkamer_presence', 'on') %}
+            Gedetecteerd
+          {% else %}
+            {{states.binary_sensor.woonkamer_presence.last_changed.strftime('%H:%M')}}
+          {% endif %}
+        icon_template: >-
+          {% if is_state('binary_sensor.woonkamer_presence', 'on') %}
+            mdi:motion-sensor
+          {% else %}
+            mdi:account-off
+          {% endif %}
+      eetkamer_last_presence:
+        entity_id: binary_sensor.eetkamer_presence
+        friendly_name: "Eetkamer aanwezigheid"
+        value_template: >-
+          {% if is_state('binary_sensor.eetkamer_presence', 'on') %}
+            Gedetecteerd
+          {% else %}
+            {{states.binary_sensor.eetkamer_presence.last_changed.strftime('%H:%M')}}
+          {% endif %}
+        icon_template: >-
+          {% if is_state('binary_sensor.eetkamer_presence', 'on') %}
+            mdi:motion-sensor
+          {% else %}
+            mdi:account-off
+          {% endif %}
