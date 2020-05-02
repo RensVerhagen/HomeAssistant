@@ -1,0 +1,22 @@
+# Sensors
+
+  # External IP Address
+  - platform: dnsip
+
+  # Travis-CI Sensor for continues integration
+  - platform: travisci
+    api_key: !secret travis_token
+    branch: master
+    repository: HomeAssistant
+
+  # Templates for rerieving last state
+  - platform: template
+    sensors:
+      voordeur_last_open:
+        friendly_name: "Voordeur laatst open"
+        device_class: timestamp
+        value_template: {{ states.binary_sensor.voordeur.last_changed.strftime('%H:%M')}}
+      achterdeur_last_open:
+        friendly_name: "Achterdeur laatst open"
+        device_class: timestamp
+        value_template: {{ states.binary_sensor.achterdeur.last_changed.strftime('%H:%M')}}
