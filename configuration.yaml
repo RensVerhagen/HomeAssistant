@@ -58,20 +58,6 @@ http:
 # Enables the frontend
 frontend:
 
-# Makes these websites available as entities 
-# Deprecated with upgrade to 0.107
-# weblink:
-#  entities:
-#    - name: Router
-#      url: !secret router_url
-#      icon: mdi:router-wireless
-#    - name: Node-Red
-#      url: !secret nodered_url
-#      icon: mdi:shuffle-variant
-#    - name: Synology Nas
-#      url: !secret synology_url
-#      icon: mdi:nas
-
 # Enables configuration UI
 config:
 
