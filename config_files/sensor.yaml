@@ -13,10 +13,12 @@
   - platform: template
     sensors:
       voordeur_last_open:
+        entity_id: binary_sensor.voordeur
         friendly_name: "Voordeur laatst open"
         device_class: timestamp
-        value_template: {{ states.binary_sensor.voordeur.last_changed.strftime('%H:%M')}}
+        value_template: "{{ states.binary_sensor.voordeur.last_changed.strftime('%H:%M')}}"
       achterdeur_last_open:
+        entity_id: binary_sensor.achterdeur
         friendly_name: "Achterdeur laatst open"
         device_class: timestamp
-        value_template: {{ states.binary_sensor.achterdeur.last_changed.strftime('%H:%M')}}
+        value_template: "{{ states.binary_sensor.achterdeur.last_changed.strftime('%H:%M')}}"
