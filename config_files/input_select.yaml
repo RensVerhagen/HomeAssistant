@@ -1,0 +1,14 @@
+### Custom Input Select Fields ###
+
+input_select:
+  # Harmony hub activity picklist, see 'harmony_harmony_hub.conf' for available activities
+  harmony_activity:
+    name: Harmony Activity
+    icon: mdi:remote
+    # initial: PowerOff
+    options:
+      - PowerOff
+      - Tv kijken
+      - Films & Series
+      - Chromecast
+      - Afspelen PS4

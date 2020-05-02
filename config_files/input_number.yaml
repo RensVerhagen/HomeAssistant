@@ -1,0 +1,11 @@
+### Custom Input Number Fields ###
+
+input_number:
+  # Harmony hub volume level
+  harmony_volume:
+    icon: mdi:volume-high
+    name: Volume
+    # initial: 30
+    min: 1
+    max: 100
+    step: 1

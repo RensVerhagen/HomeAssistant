@@ -3,11 +3,19 @@
 *
 
 # You can whitelist files/folders with !, these will not be ignored.
+
+# Do not ignore the following folders
+!config_files
+
+# Do not ignore the following files
 !*.yaml
 !*.md
 !.gitignore
 !.travis.yml
 !GoogleAssistant-key_dummy.json
+# 2020-05-02 - Editing on PROD, Committing directly to Master therefore these files can be included from now on
+!harmony_*.conf
+!.HA_VERSION
 
 # Ignore the following folders.
 .cloud
@@ -19,13 +27,11 @@ letsencrypt
 node-red
 tts
 
-# Ensure these YAML files with sensetive data are ignored.
+# Ignore the the following files with sensetive data
 ip_bans.yaml
 secrets.yaml
 known_devices.yaml
 GoogleAssistant-key.json
 
 # Ignore the following files as these get updated by Home Assistant
-harmony_harmony_hub.conf
-.HA_VERSION
 home-assistant.log
