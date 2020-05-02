@@ -1,0 +1,43 @@
+### Custom Fields ###
+input_boolean:
+  # Guest at home input boolean
+  guest_home:
+    name: Gast
+    initial: off
+    icon: mdi:human-male-female
+  # Boolean to determine if somebody is Home
+  home_presence:
+    name: Thuis
+    icon: mdi:home-account
+  # Boolean to use for Go to Bed scenario
+  sleeping:
+    name: Slapen
+    icon: mdi:hotel
+    initial: off
+  # Holiday mode
+  holiday_mode:
+    name: Vakantie modus
+    icon: mdi:beach
+
+input_select:
+  # Harmony hub activity picklist, see 'harmony_harmony_hub.conf' for available activities
+  harmony_activity:
+    name: Harmony Activity
+    icon: mdi:remote
+    # initial: PowerOff
+    options:
+      - PowerOff
+      - Tv kijken
+      - Films & Series
+      - Chromecast
+      - Afspelen PS4
+
+input_number:
+  # Harmony hub volume level
+  harmony_volume:
+    icon: mdi:volume-high
+    name: Volume
+    # initial: 30
+    min: 1
+    max: 100
+    step: 1
