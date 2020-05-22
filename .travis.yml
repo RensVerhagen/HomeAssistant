@@ -11,6 +11,10 @@ language: python
 python:
   - "3.7"
 
+branches:
+  only:
+  - master
+
 before_install:
   - cp secrets_dummy.yaml secrets.yaml
   - cp GoogleAssistant-key_dummy.json GoogleAssistant-key.json
