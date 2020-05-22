@@ -9,17 +9,38 @@
     branch: master
     repository: HomeAssistant
 
+  # Date Time Sensors
+  - platform: time_date
+    display_options:
+      - 'time'
+      - 'date'
+      - 'date_time'
+
   # Templates for rerieving last state
   - platform: template
     sensors:
+      ## Explain: use of the Value templates below
+      ## Example: {{ as_timestamp(states.binary_sensor.<sensor_name>.last_changed) | timestamp_custom('%d-%m %H:%M', True) }}
+      ## as_timestamp -> Convert datetime to Time
+      ## timestamp_custom (format, localtime)
+      ##    format -> see: https://docs.python.org/3/library/time.html#time.strftime
+      ##    localtime -> True/False
+
+      ## Voordeur ##
       voordeur_last_open:
         entity_id: binary_sensor.voordeur
-        friendly_name: "Voordeur laatst open"
-        value_template: >-
+        friendly_name_template: >-
           {% if is_state('binary_sensor.voordeur', 'on') %}
-            Open
+            Voordeur open sinds
           {% else %}
-            {{ states.binary_sensor.voordeur.last_changed.strftime('%H:%M')}}
+            Voordeur laatst open
+          {% endif %}
+        # Checks if last changed date is today, if so only show time, else show date + time
+        value_template: >-
+          {% if (as_timestamp(states.binary_sensor.voordeur.last_changed) | timestamp_custom('%Y-%m-%d', True)) == (states('sensor.date'))  %}
+            {{ as_timestamp(states.binary_sensor.voordeur.last_changed) | timestamp_custom('%H:%M', True) }}
+          {% else %}
+            {{ as_timestamp(states.binary_sensor.voordeur.last_changed) | timestamp_custom('%d-%m %H:%M', True) }}
           {% endif %}
         icon_template: >-
           {% if is_state('binary_sensor.voordeur', 'on') %}
@@ -27,14 +48,22 @@
           {% else %}
             mdi:door-closed
           {% endif %}
+
+      ## Achterdeur ##
       achterdeur_last_open:
         entity_id: binary_sensor.achterdeur
-        friendly_name: "Achterdeur laatst open"
-        value_template: >-
+        friendly_name_template: >-
           {% if is_state('binary_sensor.achterdeur', 'on') %}
-            Open
+            Achterdeur open sinds
           {% else %}
-            {{ states.binary_sensor.achterdeur.last_changed.strftime('%H:%M')}}
+            Achterdeur laatst open
+          {% endif %}
+        # Checks if last changed date is today, if so only show time, else show date + time
+        value_template: >-
+          {% if (as_timestamp(states.binary_sensor.achterdeur.last_changed) | timestamp_custom('%Y-%m-%d', True)) == (states('sensor.date'))  %}
+            {{ as_timestamp(states.binary_sensor.achterdeur.last_changed) | timestamp_custom('%H:%M', True) }}
+          {% else %}
+            {{ as_timestamp(states.binary_sensor.achterdeur.last_changed) | timestamp_custom('%d-%m %H:%M', True) }}
           {% endif %}
         icon_template: >-
           {% if is_state('binary_sensor.achterdeur', 'on') %}
@@ -42,9 +71,16 @@
           {% else %}
             mdi:door-closed
           {% endif %}
+
+      ## Woonkamer ##
       woonkamer_last_presence:
         entity_id: binary_sensor.woonkamer_presence
-        friendly_name: "Woonkamer aanwezigheid"
+        friendly_name_template: >-
+          {% if is_state('binary_sensor.woonkamer_presence', 'on') %}
+            Woonkamer
+          {% else %}
+            Woonkamer laatst aanwezig
+          {% endif %}
         value_template: >-
           {% if is_state('binary_sensor.woonkamer_presence', 'on') %}
             Gedetecteerd
@@ -57,9 +93,16 @@
           {% else %}
             mdi:account-off
           {% endif %}
+
+      ## Eetkamer ##
       eetkamer_last_presence:
         entity_id: binary_sensor.eetkamer_presence
-        friendly_name: "Eetkamer aanwezigheid"
+        friendly_name_template: >-
+          {% if is_state('binary_sensor.eetkamer_presence', 'on') %}
+            Eetkamer
+          {% else %}
+            Eetkamer laatst aanwezig
+          {% endif %}
         value_template: >-
           {% if is_state('binary_sensor.eetkamer_presence', 'on') %}
             Gedetecteerd
