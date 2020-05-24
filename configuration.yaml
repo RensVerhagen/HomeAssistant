@@ -12,6 +12,9 @@ homeassistant:
   time_zone: Europe/Amsterdam
   # Include homeassistant customizations:
   customize: !include config_files/customize.yaml
+  # Internal and External URL 1.10 upgrade
+  external_url: !secret hassio_url
+  internal_url: !secret hassio_url_internal
   # Trusting localhost and devices on local network
   auth_providers:
   - type: homeassistant
@@ -39,7 +42,6 @@ logger:
 ### Http access setup ###
 http:
   server_port: !secret hassio_server_port
-  base_url: !secret hassio_ip
   use_x_forwarded_for: true
   trusted_proxies:
     - !secret synology_ip
