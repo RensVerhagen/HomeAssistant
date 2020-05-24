@@ -12,6 +12,9 @@ homeassistant:
   time_zone: Europe/Amsterdam
   # Include homeassistant customizations:
   customize: !include config_files/customize.yaml
+  # Internal and External URL 1.10 upgrade
+  external_url: !secret hassio_url
+  internal_url: !secret hassio_url_internal
   # Trusting localhost and devices on local network
   auth_providers:
   - type: homeassistant
