@@ -1,0 +1,17 @@
+  # Manual Alarm Control Panel
+  # See for more information: https://www.home-assistant.io/integrations/manual/
+  - platform: manual
+    name: HA Alarm
+    code: !secret hassio_alarm_code
+    # Time before alarm is actualy on
+    arming_time: 60
+    # Time before alarm is actually triggered
+    delay_time: 60
+    # Time how long the Alarm runs in seconds
+    trigger_time: 120
+    # State specific settings
+    disarmed:
+      trigger_time: 0
+    armed_home:
+      arming_time: 0
+      delay_time: 0
