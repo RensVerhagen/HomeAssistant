@@ -28,7 +28,6 @@
 
       ## Voordeur ##
       voordeur_last_open:
-        entity_id: binary_sensor.voordeur
         friendly_name_template: >-
           {% if is_state('binary_sensor.voordeur', 'on') %}
             Voordeur open sinds
@@ -51,7 +50,6 @@
 
       ## Achterdeur ##
       achterdeur_last_open:
-        entity_id: binary_sensor.achterdeur
         friendly_name_template: >-
           {% if is_state('binary_sensor.achterdeur', 'on') %}
             Achterdeur open sinds
@@ -74,7 +72,6 @@
 
       ## Woonkamer ##
       woonkamer_last_presence:
-        entity_id: binary_sensor.woonkamer_presence
         friendly_name_template: >-
           {% if is_state('binary_sensor.woonkamer_presence', 'on') %}
             Woonkamer
@@ -96,7 +93,6 @@
 
       ## Eetkamer ##
       eetkamer_last_presence:
-        entity_id: binary_sensor.eetkamer_presence
         friendly_name_template: >-
           {% if is_state('binary_sensor.eetkamer_presence', 'on') %}
             Eetkamer
