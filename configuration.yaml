@@ -96,8 +96,8 @@ tts:
     base_url: !secret hassio_url
 
 # Components
-climate:
-  platform: nest
+# climate:
+#  platform: nest 23-11-2020 RV: The nest platform for the climate integration does not support platform setup. Please remove it from your config.
 
 # Google Assistant
 google_assistant:
@@ -115,8 +115,10 @@ google_assistant:
 
 # Nest Thermostat
 nest:
-  client_id: !secret nest_id
-  client_secret: !secret nest_secret
+  client_id: !secret nest_clientid
+  client_secret: !secret nest_clientsecret
+  project_id: !secret nest_projectid
+  subscriber_id: !secret nest_subscriberid
 
 # Xiaomi Roborock
 vacuum:
