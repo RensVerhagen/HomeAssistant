@@ -22,7 +22,7 @@ before_install:
   - touch home-assistant.log
 
 install:
-  - pip3 install homeassistant
+  - python3 -m pip install homeassistant
 
 script:
-- hass --script check_config -c . -f
+  - hass --script check_config -c . -f
