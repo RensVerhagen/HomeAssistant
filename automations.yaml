@@ -11,3 +11,27 @@
   - data:
       addon: core_git_pull
     service: hassio.addon_start
+- id: '1606926697561'
+  alias: HA Start notify
+  description: Sends push notification to OnePlus when HA is started
+  trigger:
+  - platform: homeassistant
+    event: start
+  condition: []
+  action:
+  - service: notify.mobile_app_oneplus8
+    data:
+      message: HA Started
+  mode: single
+- id: '1606926764664'
+  alias: HA Stop notify
+  description: Sends push notification to OnePlus when HA is shutdown
+  trigger:
+  - platform: homeassistant
+    event: shutdown
+  condition: []
+  action:
+  - service: notify.mobile_app_oneplus8
+    data:
+      message: HA Stopped
+  mode: single

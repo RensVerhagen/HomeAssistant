@@ -12,9 +12,13 @@ home_presence:
 # Boolean to use for Go to Bed scenario
 sleeping:
   name: Slapen
-  icon: mdi:hotel
+  icon: mdi:bed
   initial: off
 # Holiday mode
 holiday_mode:
   name: Vakantie modus
   icon: mdi:beach
+# Start Full Backup
+ha_full_backup:
+  name: Start full backup
+  icon: mdi:cloud-refresh
