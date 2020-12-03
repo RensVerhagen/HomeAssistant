@@ -1,0 +1,10 @@
+  # Contains all webcameras
+  # See for more information: 
+  #   - https://www.home-assistant.io/integrations/generic/
+
+  - platform: generic
+    still_image_url: https://d2211byn0pk9fi.cloudfront.net/spree/products/82346/mini/T8410--800x800.jpg?1592297830
+    stream_source: rtsp://192.168.2.50/live0
+    verify_ssl: false
+    name: Babycam
+
