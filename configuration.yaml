@@ -137,6 +137,11 @@ notify:
     platform: pushbullet
     api_key: !secret pushbullet_apikey
 
+# Spotify
+spotify:
+  client_id: !secret spotify_clientid
+  client_secret: !secret spotify_secret
+
 ### Hass.io Database ###
 # Recorder, controlling where the Logs / Activites are stored
 recorder:
