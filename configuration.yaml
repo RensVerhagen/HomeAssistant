@@ -143,8 +143,9 @@ spotify:
   client_id: !secret spotify_clientid
   client_secret: !secret spotify_secret
 
-# Stream, needed for IP Camera access
-stream:
+# Stream / FFmpeg, needed for IP Camera access
+# stream: // 4-12-2020 RV: Using ffmpeg instead of stream platform for webcam
+ffmpeg:
 
 ### Hass.io Database ###
 # Recorder, controlling where the Logs / Activites are stored
