@@ -26,6 +26,7 @@ homeassistant:
 ### Include dependent files ###
 group: !include groups.yaml
 automation: !include automations.yaml
+automation backend: !include config_files/backend_automations.yaml
 script: !include scripts.yaml
 person: !include persons.yaml
 scene: !include scenes.yaml

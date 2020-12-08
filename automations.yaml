@@ -35,3 +35,29 @@
     data:
       message: HA Stopped
   mode: single
+- id: '1607178039348'
+  alias: Alarm - Trigger Silent
+  description: Sends push notification when alarm is triggered
+  trigger:
+  - platform: state
+    entity_id:
+    - binary_sensor.achterdeur
+    - binary_sensor.voordeur
+    - binary_sensor.woonkamer_presence
+    - binary_sensor.eetkamer_presence
+    from: 'off'
+    to: 'on'
+  condition:
+  - condition: state
+    entity_id: alarm_control_panel.ha_alarm
+    state: armed_away
+  action:
+  - service: notify.all_devices
+    data:
+      message: ALARM! Stille alarm is afgegaan
+  - service: cast.show_lovelace_view
+    data:
+      dashboard_path: lovelace
+      view_path: security
+    entity_id: media_player.nest_hub_woonkamer
+  mode: single

@@ -1,0 +1,51 @@
+# Additional automation file not configured via frontend
+# So that '!secret' options are supported and not overwritten with actual values, see: https://github.com/home-assistant/frontend/issues/3065
+- id: 'Alarm_ArmAway'
+  alias: Alarm - Arm Away
+  description: Activates alarm when nobody's at home for 10 minutes
+  trigger:
+  - platform: state
+    entity_id: input_boolean.home_presence
+    from: 'true'
+    to: 'false'
+    for: 00:10:00
+  condition: []
+  action:
+  - service: alarm_control_panel.alarm_arm_away
+    data:
+      code: !secret hassio_alarm_code
+    entity_id: alarm_control_panel.ha_alarm
+  mode: single
+
+- id: 'Alarm_ArmHome'
+  alias: Alarm - Arm Home
+  description: Activates alarm when going to bed
+  trigger:
+  - platform: state
+    entity_id: input_boolean.home_presence
+    from: 'true'
+    to: 'false'
+    for: 00:10:00
+  condition: []
+  action:
+  - service: alarm_control_panel.alarm_arm_away
+    data:
+      code: !secret hassio_alarm_code
+    entity_id: alarm_control_panel.ha_alarm
+  mode: single
+
+- id: 'Alarm_DisarmHome'
+  alias: Alarm - Disarm Home
+  description: Deactivates alarm when somebody's at home
+  trigger:
+  - platform: state
+    entity_id: input_boolean.home_presence
+    from: 'false'
+    to: 'true'
+  condition: []
+  action:
+  - service: alarm_control_panel.alarm_disarm
+    data:
+      code: !secret hassio_alarm_code
+    entity_id: alarm_control_panel.ha_alarm
+  mode: single
