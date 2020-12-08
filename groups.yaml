@@ -1,8 +1,0 @@
-### Groups ###
-
-All_Persons:
-  name: Personen
-  # view: // Deprecated with upgrade to 0.107
-  entities:
-    - person.nathasja
-    - person.rens

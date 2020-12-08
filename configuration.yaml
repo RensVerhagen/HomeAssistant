@@ -24,12 +24,12 @@ homeassistant:
      - !secret router_ip_range
 
 ### Include dependent files ###
-group: !include groups.yaml
 automation: !include automations.yaml
 automation backend: !include config_files/backend_automations.yaml
 script: !include scripts.yaml
 person: !include persons.yaml
 scene: !include scenes.yaml
+group: !include config_files/groups.yaml
 sensor: !include config_files/sensor.yaml
 input_boolean: !include config_files/input_boolean.yaml
 input_select: !include config_files/input_select.yaml
@@ -133,11 +133,16 @@ tesla:
   username: !secret tesla_username
   password: !secret tesla_password
 
-# Pushbullet
+# Notification handling: Groups & Pushbullet integration
 notify:
   - name: notify_pushbullet
     platform: pushbullet
     api_key: !secret pushbullet_apikey
+  - name: all_devices
+    platform: group
+    services:
+      - service: mobile_app_oneplus8
+      - service: mobile_app_redmi_note_8t
 
 # Spotify
 spotify:
