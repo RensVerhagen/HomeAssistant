@@ -6,9 +6,9 @@
   trigger:
   - platform: state
     entity_id: input_boolean.home_presence
-    from: 'true'
-    to: 'false'
-    for: 00:10:00
+    from: 'off'
+    to: 'on'
+    for: 00:05:00
   condition: []
   action:
   - service: alarm_control_panel.alarm_arm_away
@@ -25,10 +25,6 @@
     entity_id: input_boolean.sleeping
     from: 'off'
     to: 'on'
-  - platform: state
-    entity_id: input_boolean.test_toggle
-    to: 'on'
-    from: 'off'
   action:
   - service: alarm_control_panel.alarm_arm_night
     data:
@@ -42,8 +38,8 @@
   trigger:
   - platform: state # Somebody arrives home
     entity_id: input_boolean.home_presence
-    from: 'false'
-    to: 'true'
+    from: 'off'
+    to: 'on'
   - platform: event # Selected action from mobile device
     event_type: mobile_app_notification_action
     event_data:
