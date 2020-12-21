@@ -34,12 +34,13 @@ sensor: !include config_files/sensor.yaml
 input_boolean: !include config_files/input_boolean.yaml
 input_select: !include config_files/input_select.yaml
 input_number: !include config_files/input_number.yaml
+input_text: !include config_files/input_text.yaml
 alarm_control_panel: !include config_files/alarm_control_panel.yaml
 camera: !include config_files/cameras.yaml
 
 ### Set log level ###
 logger:
-  default: warning
+  default: error
   #log levels critical, fatal, error, warning, warn, info, debug, notset
 
 ### Http access setup ###
