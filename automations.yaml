@@ -36,8 +36,8 @@
       message: HA Stopped
   mode: single
 - id: '1607178039348'
-  alias: Alarm - Trigger Silent
-  description: Sends push notification when alarm is triggered
+  alias: Alarm - Trigger the Alarm
+  description: Triggers the Alarm so that follow-up states are automatically set
   trigger:
   - platform: state
     entity_id:
@@ -48,11 +48,71 @@
     from: 'off'
     to: 'on'
   condition:
+  - condition: or
+    conditions:
   - condition: state
     entity_id: alarm_control_panel.ha_alarm
     state: armed_away
+    - condition: state
+      entity_id: alarm_control_panel.ha_alarm
+      state: armed_night
   action:
-  - service: notify.all_devices
+  - service: alarm_control_panel.alarm_trigger
+    data: {}
+    entity_id: alarm_control_panel.ha_alarm
+  mode: single
+- id: '1607443881376'
+  alias: Alarm - Alarm Pending
+  description: Play alarm pending sound and show security page on Nest Hub
+  trigger:
+  - platform: state
+    entity_id: alarm_control_panel.ha_alarm
+    to: pending
+  condition: []
+  action:
+  - service: notify.mobile_app_oneplus8
+    data:
+      title: Alarm
+      message: Het alarm zal over 60 seconden afgaan!
+      data:
+        actions:
+        - action: alarm_disarm
+          title: Alarm uitschakelen
+        - action: URI
+          title: Open Alarm Paneel
+          uri: lovelace/security
+  - service: media_player.play_media
+    data:
+      media_content_id: https://home.rensverhagen.nl/local/AlarmPending60.mp3
+      media_content_type: audio/mp3
+    entity_id: media_player.google_home
+  mode: single
+- id: '1607444176030'
+  alias: Alarm - Alarm Triggered
+  description: Play alarm sound and sent notification to mobile
+  trigger:
+  - platform: state
+    entity_id: alarm_control_panel.ha_alarm
+    to: triggered
+  condition: []
+  action:
+  - service: notify.mobile_app_oneplus8
+    data:
+      title: Alarm
+      message: Het alarm is afgegaan!
+      data:
+        actions:
+        - action: alarm_disarm
+          title: Alarm uitschakelen
+        - action: URI
+          title: Open Alarm Paneel
+          uri: lovelace/security
+  - service: media_player.play_media
+    entity_id: media_player.google_home
+    data:
+      media_content_id: https://home.rensverhagen.nl/local/Alarm.mp3
+      media_content_type: audio/mp3
+  mode: single
     data:
       message: ALARM! Stille alarm is afgegaan
   - service: cast.show_lovelace_view

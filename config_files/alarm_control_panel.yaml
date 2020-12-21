@@ -3,15 +3,11 @@
   - platform: manual
     name: HA Alarm
     code: !secret hassio_alarm_code
-    # Time before alarm is actualy on
-    arming_time: 60
-    # Time before alarm is actually triggered
-    delay_time: 60
-    # Time how long the Alarm runs in seconds
-    trigger_time: 120
+    arming_time: 60 # Time in seconds before alarm is actually activated
+    delay_time: 60 # Time in seconds before alarm is actually triggered, status will be pending
+    trigger_time: 900 # Time in seconds how long the Alarm runs
     # State specific settings
     disarmed:
       trigger_time: 0
-    armed_home:
-      arming_time: 0
-      delay_time: 0
+    armed_night:
+      arming_time: 600 # 10 minutes for alarm is activated

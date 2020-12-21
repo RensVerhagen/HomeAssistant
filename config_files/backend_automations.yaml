@@ -17,18 +17,20 @@
     entity_id: alarm_control_panel.ha_alarm
   mode: single
 
-- id: 'Alarm_ArmHome'
-  alias: Alarm - Arm Home
+- id: 'Alarm_ArmNight'
+  alias: Alarm - Arm Night
   description: Activates alarm when going to bed
   trigger:
   - platform: state
-    entity_id: input_boolean.home_presence
-    from: 'true'
-    to: 'false'
-    for: 00:10:00
-  condition: []
+    entity_id: input_boolean.sleeping
+    from: 'off'
+    to: 'on'
+  - platform: state
+    entity_id: input_boolean.test_toggle
+    to: 'on'
+    from: 'off'
   action:
-  - service: alarm_control_panel.alarm_arm_away
+  - service: alarm_control_panel.alarm_arm_night
     data:
       code: !secret hassio_alarm_code
     entity_id: alarm_control_panel.ha_alarm
@@ -36,16 +38,28 @@
 
 - id: 'Alarm_DisarmHome'
   alias: Alarm - Disarm Home
-  description: Deactivates alarm when somebody's at home
+  description: Deactivates the alarm
   trigger:
-  - platform: state
+  - platform: state # Somebody arrives home
     entity_id: input_boolean.home_presence
     from: 'false'
     to: 'true'
+  - platform: event # Selected action from mobile device
+    event_type: mobile_app_notification_action
+    event_data:
+      action: alarm_disarm
+  - platform: time
+    at: 
+      - sensor.oneplus8_volgende_alarm # Next alarm Phone Rens
+      - sensor.redmi_note_8t_next_alarm # Next alarm Phone Tas
   condition: []
   action:
   - service: alarm_control_panel.alarm_disarm
     data:
       code: !secret hassio_alarm_code
     entity_id: alarm_control_panel.ha_alarm
+  - service: homeassistant.turn_off
+    entity_id:
+      - media_player.nest_hub_woonkamer
+      - media_player.google_home
   mode: single
