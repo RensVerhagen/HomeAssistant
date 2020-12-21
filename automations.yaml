@@ -21,7 +21,8 @@
   action:
   - service: notify.mobile_app_oneplus8
     data:
-      message: HA Started
+      title: HA Settings
+      message: Home Assistant succesfully Started
   mode: single
 - id: '1606926764664'
   alias: HA Stop notify
@@ -33,7 +34,8 @@
   action:
   - service: notify.mobile_app_oneplus8
     data:
-      message: HA Stopped
+      title: HA Settings
+      message: Home Assistant Stopped
   mode: single
 - id: '1607178039348'
   alias: Alarm - Trigger the Alarm
@@ -50,9 +52,9 @@
   condition:
   - condition: or
     conditions:
-  - condition: state
-    entity_id: alarm_control_panel.ha_alarm
-    state: armed_away
+    - condition: state
+      entity_id: alarm_control_panel.ha_alarm
+      state: armed_away
     - condition: state
       entity_id: alarm_control_panel.ha_alarm
       state: armed_night
@@ -113,11 +115,78 @@
       media_content_id: https://home.rensverhagen.nl/local/Alarm.mp3
       media_content_type: audio/mp3
   mode: single
+- id: '1607601953191'
+  alias: 'Lights - Turn on Eetkamer '
+  description: Turns on lights in Eetkamer when it is dark and motion is detected
+  trigger:
+  - platform: state
+    entity_id: binary_sensor.eetkamer_presence
+    to: 'on'
+  condition:
+  - condition: numeric_state
+    entity_id: sensor.eetkamer_lightlevel
+    below: '100'
+  - condition: state
+    entity_id: light.eetkamer
+    state: 'off'
+    for:
+      minutes: 5
+  action:
+  - service: light.turn_on
+    entity_id: light.eetkamer
     data:
-      message: ALARM! Stille alarm is afgegaan
-  - service: cast.show_lovelace_view
+      brightness_pct: 100
+  mode: single
+- id: '1607602424829'
+  alias: Lights - Turn on Woonkamer
+  description: Turns on lights in Woonkamer when it is dark and motion is detected.
+  trigger:
+  - platform: state
+    entity_id: binary_sensor.woonkamer_presence
+    to: 'on'
+  condition:
+  - condition: numeric_state
+    entity_id: sensor.woonkamer_lightlevel
+    below: '100'
+  - condition: state
+    entity_id: light.woonkamer
+    state: 'off'
+  action:
+  - service: light.turn_on
+    data: {}
+    entity_id: light.woonkamer
+  mode: single
+- id: '1607689290224'
+  alias: Test Automation
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: input_boolean.test_toggle
+    to: 'on'
+    from: 'off'
+  condition: []
+  action:
+  - service: notify.mobile_app_oneplus8
     data:
-      dashboard_path: lovelace
-      view_path: security
-    entity_id: media_player.nest_hub_woonkamer
+      title: Test
+      message: 'from: ''off'' to: ''on'''
+  mode: single
+- id: '1607713120959'
+  alias: 'Input Boolean: Sleep - Turn off'
+  description: Turn off Input Sleep Boolean when motion is detected
+  trigger:
+  - platform: state
+    entity_id:
+    - binary_sensor.woonkamer_presence
+    - binary_sensor.eetkamer_presence
+    from: 'off'
+    to: 'on'
+  condition:
+  - condition: state
+    entity_id: input_boolean.sleeping
+    state: 'on'
+  action:
+  - service: input_boolean.turn_off
+    data: {}
+    entity_id: input_boolean.sleeping
   mode: single

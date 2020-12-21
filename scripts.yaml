@@ -1,0 +1,9 @@
+show_alarm_panel:
+  alias: Show Alarm Panel
+  sequence:
+  - service: cast.show_lovelace_view
+    data:
+      entity_id: media_player.nest_hub_woonkamer
+      dashboard_path: lovelace-cast
+      view_path: alarm
+  mode: single
