@@ -1,16 +1,3 @@
-- id: '1587894913273'
-  alias: Master Branch Passed
-  description: When the Master Branch passes in Travis-CI do a Pull from Github
-  trigger:
-  - entity_id: sensor.rensverhagen_homeassistant_state
-    from: started
-    platform: state
-    to: passed
-  condition: []
-  action:
-  - data:
-      addon: core_git_pull
-    service: hassio.addon_start
 - id: '1606926697561'
   alias: HA Start notify
   description: Sends push notification to OnePlus when HA is started
@@ -189,4 +176,21 @@
   - service: input_boolean.turn_off
     data: {}
     entity_id: input_boolean.sleeping
+  mode: single
+- id: '1608586872962'
+  alias: Lights - Turn off Eetkamer
+  description: Turns off lights in Eetkamer when no motion is detected
+  trigger:
+  - platform: state
+    entity_id: binary_sensor.eetkamer_presence
+    to: 'off'
+    for: 0:15:00
+  condition:
+  - condition: state
+    entity_id: light.eetkamer
+    state: 'on'
+    for: 0:30:00
+  action:
+  - service: light.turn_off
+    entity_id: light.eetkamer
   mode: single
