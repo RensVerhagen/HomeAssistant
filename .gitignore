@@ -6,6 +6,7 @@
 
 # Do not ignore the following folders
 !config_files
+!integrations
 
 # Do not ignore the following files
 !*.yaml

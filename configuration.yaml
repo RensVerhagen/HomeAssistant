@@ -23,7 +23,7 @@ homeassistant:
      - 127.0.0.1
      - !secret router_ip_range
 
-### Include dependent files ###
+### Include dependent configuration files ###
 automation: !include automations.yaml
 automation backend: !include config_files/backend_automations.yaml
 script: !include scripts.yaml
@@ -37,6 +37,10 @@ input_number: !include config_files/input_number.yaml
 input_text: !include config_files/input_text.yaml
 alarm_control_panel: !include config_files/alarm_control_panel.yaml
 camera: !include config_files/cameras.yaml
+
+### Include dependent intregration files ###
+influxdb: !include integrations/influxdb.yaml
+utility_meter: !include integrations/utility_meter.yaml
 
 ### Set log level ###
 logger:
