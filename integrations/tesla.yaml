@@ -1,0 +1,4 @@
+# Tesla Model 3
+# tesla:
+  username: !secret tesla_username
+  password: !secret tesla_password

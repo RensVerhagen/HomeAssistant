@@ -1,0 +1,12 @@
+# Google Assistant integration
+# google_assistant:
+  project_id: !secret google_projectid
+  service_account: !include GoogleAssistant-key.json
+  expose_by_default: false
+  entity_config:
+    scene.gotosleep:
+      name: Naar bed
+      expose: true
+      aliases:
+        - Bedtijd
+        - Ga slapen

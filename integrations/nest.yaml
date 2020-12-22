@@ -1,0 +1,6 @@
+# Nest Thermostat
+# nest:
+  client_id: !secret nest_clientid
+  client_secret: !secret nest_clientsecret
+  project_id: !secret nest_projectid
+  subscriber_id: !secret nest_subscriberid

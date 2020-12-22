@@ -39,8 +39,15 @@ alarm_control_panel: !include config_files/alarm_control_panel.yaml
 camera: !include config_files/cameras.yaml
 
 ### Include dependent intregration files ###
+google_assistant: !include integrations/google_assistant.yaml
 influxdb: !include integrations/influxdb.yaml
+nest: !include integrations/nest.yaml
+notify: !include integrations/notify.yaml
+tesla: !include integrations/tesla.yaml
+spotify: !include integrations/spotify.yaml
 utility_meter: !include integrations/utility_meter.yaml
+vacuum: !include integrations/vacuum.yaml
+weather: !include integrations/weather.yaml
 
 ### Set log level ###
 logger:
@@ -76,12 +83,6 @@ zone:
   radius: 180
   icon: mdi:worker
 
-# Weather
-weather:
-  - platform: buienradar
-    name: 'station_home'
-    forecast: true
-
 # Check if users are at home via netgear router connection 
 device_tracker:
   - platform: netgear
@@ -101,58 +102,6 @@ tts:
     service_name: google_say
     language: 'nl'
     base_url: !secret hassio_url
-
-# Components
-# climate:
-#  platform: nest 23-11-2020 RV: The nest platform for the climate integration does not support platform setup. Please remove it from your config.
-
-# Google Assistant
-google_assistant:
-  project_id: !secret google_projectid
-  # api_key: !secret google_apikey  deprecated in 0.107
-  service_account: !include GoogleAssistant-key.json
-  expose_by_default: false
-  entity_config:
-    scene.gotosleep:
-      name: Naar bed
-      expose: true
-      aliases:
-        - Bedtijd
-        - Ga slapen
-
-# Nest Thermostat
-nest:
-  client_id: !secret nest_clientid
-  client_secret: !secret nest_clientsecret
-  project_id: !secret nest_projectid
-  subscriber_id: !secret nest_subscriberid
-
-# Xiaomi Roborock
-vacuum:
-  - platform: xiaomi_miio
-    host: 192.168.2.28
-    token: !secret roborock_token
-
-# Tesla Model 3
-tesla:
-  username: !secret tesla_username
-  password: !secret tesla_password
-
-# Notification handling: Groups & Pushbullet integration
-notify:
-  - name: notify_pushbullet
-    platform: pushbullet
-    api_key: !secret pushbullet_apikey
-  - name: all_devices
-    platform: group
-    services:
-      - service: mobile_app_oneplus8
-      - service: mobile_app_redmi_note_8t
-
-# Spotify
-spotify:
-  client_id: !secret spotify_clientid
-  client_secret: !secret spotify_secret
 
 # Stream / FFmpeg, needed for IP Camera access
 # stream: // 4-12-2020 RV: Using ffmpeg instead of stream platform for webcam
