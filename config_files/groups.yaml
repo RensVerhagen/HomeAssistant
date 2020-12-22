@@ -11,6 +11,7 @@ Main_Floor:
   entities:
     - light.eetkamer
     - light.woonkamer
+    - light.keuken
     - remote.harmony_hub
     - switch.smart_switch_1
     - media_player.google_home
