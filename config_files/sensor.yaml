@@ -116,3 +116,24 @@
           {% else %}
             mdi:account-off
           {% endif %}
+
+      ## Keuken ##
+      keuken_last_presence:
+        friendly_name_template: >-
+          {% if is_state('binary_sensor.keuken_presence', 'on') %}
+            keuken
+          {% else %}
+            keuken laatst aanwezig
+          {% endif %}
+        value_template: >-
+          {% if is_state('binary_sensor.keuken_presence', 'on') %}
+            Gedetecteerd
+          {% else %}
+            {{states.binary_sensor.keuken_presence.last_changed.strftime('%H:%M')}}
+          {% endif %}
+        icon_template: >-
+          {% if is_state('binary_sensor.keuken_presence', 'on') %}
+            mdi:motion-sensor
+          {% else %}
+            mdi:account-off
+          {% endif %}
