@@ -1,9 +1,13 @@
-# Google Assistant integration
+# Google Assistant integration https://www.home-assistant.io/integrations/google_assistant/
 # google_assistant:
   project_id: !secret google_projectid
   service_account: !include ../GoogleAssistant-key.json
   expose_by_default: false
+  report_state: true
   entity_config:
+    light.keuken:
+      name: Keuken Lampen
+      expose: true
     scene.gotosleep:
       name: Naar bed
       expose: true
