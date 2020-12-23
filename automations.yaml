@@ -34,6 +34,7 @@
     - binary_sensor.voordeur
     - binary_sensor.woonkamer_presence
     - binary_sensor.eetkamer_presence
+    - binary_sensor.keuken_presence
     from: 'off'
     to: 'on'
   condition:
@@ -166,6 +167,7 @@
     entity_id:
     - binary_sensor.woonkamer_presence
     - binary_sensor.eetkamer_presence
+    - binary_sensor.keuken_presence
     from: 'off'
     to: 'on'
   condition:
@@ -207,4 +209,43 @@
   - service: switch.turn_on
     data: {}
     entity_id: switch.smart_switch_1
+  mode: single
+- id: '1608745478499'
+  alias: Lights - Turn on Keuken
+  description: Turns on lights in Keuken when it is dark and motion is detected
+  trigger:
+  - platform: state
+    entity_id: binary_sensor.keuken_presence
+    to: 'on'
+  condition:
+  - condition: numeric_state
+    entity_id: sensor.keuken_lightlevel
+    below: '100'
+  - condition: state
+    entity_id: light.keuken
+    state: 'off'
+    for:
+      minutes: 5
+  action:
+  - service: light.turn_on
+    entity_id: light.keuken
+    data:
+      brightness_pct: 100
+  mode: single
+- id: '1608745639683'
+  alias: Lights - Turn off Keuken
+  description: Turns off lights in Keuken when no motion is detected
+  trigger:
+  - platform: state
+    entity_id: binary_sensor.keuken_presence
+    to: 'off'
+    for: 0:15:00
+  condition:
+  - condition: state
+    entity_id: light.keuken
+    state: 'on'
+    for: 0:30:00
+  action:
+  - service: light.turn_off
+    entity_id: light.keuken
   mode: single
