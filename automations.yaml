@@ -60,7 +60,7 @@
     to: pending
   condition: []
   action:
-  - service: notify.mobile_app_oneplus8
+  - service: notify.all_devices
     data:
       title: Alarm
       message: Het alarm zal over 60 seconden afgaan!
@@ -86,7 +86,7 @@
     to: triggered
   condition: []
   action:
-  - service: notify.mobile_app_oneplus8
+  - service: notify.all_devices
     data:
       title: Alarm
       message: Het alarm is afgegaan!
@@ -104,7 +104,7 @@
       media_content_type: audio/mp3
   mode: single
 - id: '1607601953191'
-  alias: 'Lights - Turn on Eetkamer '
+  alias: Lights - Eetkamer Turn on
   description: Turns on lights in Eetkamer when it is dark and motion is detected
   trigger:
   - platform: state
@@ -118,15 +118,15 @@
     entity_id: light.eetkamer
     state: 'off'
     for:
-      minutes: 5
+      seconds: 10
   action:
   - service: light.turn_on
     entity_id: light.eetkamer
     data:
-      brightness_pct: 100
+      brightness_pct: 90
   mode: single
 - id: '1607602424829'
-  alias: Lights - Turn on Woonkamer
+  alias: Lights - Woonkamer Turn on
   description: Turns on lights in Woonkamer when it is dark and motion is detected.
   trigger:
   - platform: state
@@ -139,6 +139,8 @@
   - condition: state
     entity_id: light.woonkamer
     state: 'off'
+    for:
+      seconds: 10
   action:
   - service: light.turn_on
     data: {}
@@ -180,7 +182,7 @@
     entity_id: input_boolean.sleeping
   mode: single
 - id: '1608586872962'
-  alias: Lights - Turn off Eetkamer
+  alias: Lights - Eetkamer Turn off
   description: Turns off lights in Eetkamer when no motion is detected
   trigger:
   - platform: state
@@ -197,21 +199,26 @@
     entity_id: light.eetkamer
   mode: single
 - id: '1608601873724'
-  alias: Home State - Wake Up
+  alias: Kerstboom aanzetten
   description: ''
   trigger:
   - platform: state
-    entity_id: input_boolean.sleeping
-    from: 'on'
-    to: 'off'
-  condition: []
+    entity_id: binary_sensor.woonkamer_presence
+    from: 'off'
+    to: 'on'
+  condition:
+  - condition: device
+    type: is_off
+    device_id: abc82ed7f7764c4685f1998658cb6b08
+    entity_id: switch.smart_switch_1
+    domain: switch
   action:
   - service: switch.turn_on
     data: {}
     entity_id: switch.smart_switch_1
   mode: single
 - id: '1608745478499'
-  alias: Lights - Turn on Keuken
+  alias: Lights - Keuken Turn on
   description: Turns on lights in Keuken when it is dark and motion is detected
   trigger:
   - platform: state
@@ -225,15 +232,15 @@
     entity_id: light.keuken
     state: 'off'
     for:
-      minutes: 5
+      seconds: 10
   action:
   - service: light.turn_on
     entity_id: light.keuken
     data:
-      brightness_pct: 100
+      brightness_pct: 85
   mode: single
 - id: '1608745639683'
-  alias: Lights - Turn off Keuken
+  alias: Lights - Keuken Turn off
   description: Turns off lights in Keuken when no motion is detected
   trigger:
   - platform: state
