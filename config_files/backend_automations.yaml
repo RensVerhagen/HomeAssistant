@@ -2,12 +2,12 @@
 # So that '!secret' options are supported and not overwritten with actual values, see: https://github.com/home-assistant/frontend/issues/3065
 - id: 'Alarm_ArmAway'
   alias: Alarm - Arm Away
-  description: Activates alarm when nobody's at home for 10 minutes
+  description: Activates alarm when nobody's at home for 5 minutes
   trigger:
   - platform: state
     entity_id: input_boolean.home_presence
-    from: 'off'
-    to: 'on'
+    from: 'on'
+    to: 'off'
     for: 00:05:00
   condition: []
   action:
