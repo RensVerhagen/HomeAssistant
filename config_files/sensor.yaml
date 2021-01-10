@@ -31,6 +31,22 @@
       ##    format -> see: https://docs.python.org/3/library/time.html#time.strftime
       ##    localtime -> True/False
 
+      ## Wasmachine ##
+      wasmachine_state:
+        friendly_name_template: Wasmachine status
+        value_template: >-
+          {% if is_state('switch.wasmachine', 'on') %}
+            {{states.sensor.wasmachine_washer_job_state.state}} gereed om: {{ as_timestamp(states.sensor.wasmachine_washer_completion_time.state) | timestamp_custom('%H:%M', True) }}
+          {% else %}
+            {{states.switch.wasmachine.state}}
+          {% endif %}
+        icon_template: >-
+          {% if is_state('switch.wasmachine', 'on') %}
+            mdi:washing-machine
+          {% else %}
+            mdi:washing-machine-off
+          {% endif %}
+
       ## Voordeur ##
       voordeur_last_open:
         friendly_name_template: >-
