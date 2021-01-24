@@ -305,3 +305,36 @@
     data: {}
     entity_id: switch.smart_switch_1
   mode: single
+- id: '1610900462319'
+  alias: Media - Harmony Activity changes
+  description: Sets the input select helper to match harmony activity
+  trigger:
+  - platform: state
+    entity_id: remote.harmony_hub
+    attribute: current_activity
+  condition: []
+  action:
+  - service: input_select.select_option
+    data:
+      entity_id: input_select.harmony_activity
+      option: '{{trigger.to_state.attributes.current_activity}}'
+  mode: single
+- id: '1610901571774'
+  alias: Media - Harmony Input Select changes
+  description: 'Sets the harmony activity when input select helper changes '
+  trigger:
+  - platform: state
+    entity_id: input_select.harmony_activity
+  condition:
+  - condition: not
+    conditions:
+    - condition: state
+      entity_id: remote.harmony_hub
+      attribute: current_activity
+      state: '{{trigger.to_state.state}}'
+  action:
+  - service: remote.turn_on
+    data:
+      entity_id: remote.harmony_hub
+      activity: '{{trigger.to_state.state}}'
+  mode: single
