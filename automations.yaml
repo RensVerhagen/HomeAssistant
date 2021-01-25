@@ -25,34 +25,29 @@
       message: Home Assistant Stopped
   mode: single
 - id: '1607178039348'
-  alias: Alarm - Trigger the Alarm (No Vacuum)
-  description: Triggers the Alarm so that follow-up states are automatically set
+  alias: Alarm - Trigger the Alarm (Motion)
+  description: Triggers the Alarm on Motion detection
   trigger:
   - platform: state
     entity_id:
-    - binary_sensor.achterdeur
-    - binary_sensor.voordeur
     - binary_sensor.woonkamer_presence
     - binary_sensor.eetkamer_presence
     - binary_sensor.keuken_presence
     from: 'off'
     to: 'on'
   condition:
-  - condition: or
+  - condition: and
     conditions:
     - condition: state
       entity_id: alarm_control_panel.ha_alarm
-      state: armed_away
-    - condition: and
-      conditions:
-      - condition: state
-        entity_id: alarm_control_panel.ha_alarm
-        state: armed_night
-      - condition: state
-        entity_id: vacuum.xiaomi_vacuum_cleaner
-        state:
-        - docked
-        - unavailable
+      state: 
+      - armed_away
+      - armed_night
+    - condition: state
+      entity_id: vacuum.xiaomi_vacuum_cleaner
+      state:
+      - docked
+      - unavailable
   action:
   - service: alarm_control_panel.alarm_trigger
     data: {}
@@ -264,8 +259,8 @@
     entity_id: light.keuken
   mode: single
 - id: '1610579086841'
-  alias: Alarm - Trigger the Alarm (With Vacuum)
-  description: Triggers the Alarm only on door sensors when vacuum is moving
+  alias: Alarm - Trigger the Alarm (Doors)
+  description: Triggers the Alarm only on door sensors
   trigger:
   - platform: state
     entity_id:
@@ -274,16 +269,11 @@
     from: 'off'
     to: 'on'
   condition:
-  - condition: and
-    conditions:
-    - condition: state
-      entity_id: alarm_control_panel.ha_alarm
-      state: armed_night
-    - condition: state
-      entity_id: vacuum.xiaomi_vacuum_cleaner
-      state:
-      - cleaning
-      - returning to dock
+  - condition: state
+    entity_id: alarm_control_panel.ha_alarm
+    state: 
+    - armed_night
+    - armed_away
   action:
   - service: alarm_control_panel.alarm_trigger
     data: {}
@@ -295,7 +285,7 @@
   trigger:
   - platform: numeric_state
     entity_id: sensor.zolderkamer_temperature
-    above: '20.5'
+    above: 20.5
   condition:
   - condition: state
     entity_id: switch.smart_switch_1
