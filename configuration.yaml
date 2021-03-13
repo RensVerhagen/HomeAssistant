@@ -94,7 +94,7 @@ device_tracker:
     # Wait atleast 5 minutes before setting away status
     consider_home: 0:05
     new_device_defaults:
-      track_new_devices: false # New devices won't be tracked by default -> change tracking per device in the known_devices.yaml
+      track_new_devices: true # New devices will be tracked by default -> change tracking per device in the known_devices.yaml
 
 # Text to speech
 tts:
