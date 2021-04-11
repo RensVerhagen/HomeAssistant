@@ -20,5 +20,5 @@ Main_Floor:
 Outside:
   name: Buiten
   entities:
-    - light.schuur
+    - light.schuur_buiten
     - light.voordeur
