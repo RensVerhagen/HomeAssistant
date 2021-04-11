@@ -44,11 +44,30 @@
     event_type: mobile_app_notification_action
     event_data:
       action: alarm_disarm
+  condition: []
+  action:
+  - service: alarm_control_panel.alarm_disarm
+    data:
+      code: !secret hassio_alarm_code
+    entity_id: alarm_control_panel.ha_alarm
+  - service: homeassistant.turn_off
+    entity_id:
+      - media_player.nest_hub_woonkamer
+      - media_player.google_home
+  mode: single
+
+- id: 'Alarm_DisarmWakeup'
+  alias: Alarm - Disarm WakeUp
+  description: Deactivates the alarm
+  trigger:
   - platform: time
     at: 
       - sensor.oneplus8_volgende_alarm # Next alarm Phone Rens
       - sensor.redmi_note_8t_next_alarm # Next alarm Phone Tas
-  condition: []
+  condition:
+    - condition: state
+      entity_id: input_boolean.home_presence
+      state: 'on'
   action:
   - service: alarm_control_panel.alarm_disarm
     data:
