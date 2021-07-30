@@ -91,6 +91,50 @@
             mdi:door-closed
           {% endif %}
 
+      ## Schuur Voordeur ##
+      schuur_voordeur_last_open:
+        friendly_name_template: >-
+          {% if is_state('binary_sensor.schuur_voordeur', 'on') %}
+            Schuur Voordeur open sinds
+          {% else %}
+            Schuur Voordeur laatst open
+          {% endif %}
+        # Checks if last changed date is today, if so only show time, else show date + time
+        value_template: >-
+          {% if (as_timestamp(states.binary_sensor.schuur_voordeur.last_changed) | timestamp_custom('%Y-%m-%d', True)) == (states('sensor.date'))  %}
+            {{ as_timestamp(states.binary_sensor.schuur_voordeur.last_changed) | timestamp_custom('%H:%M', True) }}
+          {% else %}
+            {{ as_timestamp(states.binary_sensor.schuur_voordeur.last_changed) | timestamp_custom('%d-%m %H:%M', True) }}
+          {% endif %}
+        icon_template: >-
+          {% if is_state('binary_sensor.schuur_voordeur', 'on') %}
+            mdi:door-open
+          {% else %}
+            mdi:door-closed
+          {% endif %}
+
+      ## Schuur Achterdeur ##
+      schuur_achterdeur_last_open:
+        friendly_name_template: >-
+          {% if is_state('binary_sensor.schuur_achterdeur', 'on') %}
+            Schuur Achterdeur open sinds
+          {% else %}
+            Schuur Achterdeur laatst open
+          {% endif %}
+        # Checks if last changed date is today, if so only show time, else show date + time
+        value_template: >-
+          {% if (as_timestamp(states.binary_sensor.schuur_achterdeur.last_changed) | timestamp_custom('%Y-%m-%d', True)) == (states('sensor.date'))  %}
+            {{ as_timestamp(states.binary_sensor.schuur_achterdeur.last_changed) | timestamp_custom('%H:%M', True) }}
+          {% else %}
+            {{ as_timestamp(states.binary_sensor.schuur_achterdeur.last_changed) | timestamp_custom('%d-%m %H:%M', True) }}
+          {% endif %}
+        icon_template: >-
+          {% if is_state('binary_sensor.schuur_achterdeur', 'on') %}
+            mdi:door-open
+          {% else %}
+            mdi:door-closed
+          {% endif %}
+
       ## Woonkamer ##
       woonkamer_last_presence:
         friendly_name_template: >-
