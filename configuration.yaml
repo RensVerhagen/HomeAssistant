@@ -46,12 +46,10 @@ notify: !include integrations/notify.yaml
 tesla: !include integrations/tesla.yaml
 spotify: !include integrations/spotify.yaml
 utility_meter: !include integrations/utility_meter.yaml
-vacuum: !include integrations/vacuum.yaml
-weather: !include integrations/weather.yaml
 
 ### Set log level ###
 logger:
-  default: error
+  default: warning
   #log levels critical, fatal, error, warning, warn, info, debug, notset
 
 ### Http access setup ###

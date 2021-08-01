@@ -1,5 +1,0 @@
-# Weather integration
-# weather:
-  - platform: buienradar
-    name: 'station_home'
-    forecast: true

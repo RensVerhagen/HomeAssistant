@@ -3,11 +3,6 @@
   # External IP Address
   - platform: dnsip
 
-  # Smart Energy Meter
-  - platform: dsmr
-    port: /dev/ttyUSB0
-    dsmr_version: 5
-
   # Travis-CI Sensor for continues integration
   - platform: travisci
     api_key: !secret travis_token
