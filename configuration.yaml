@@ -48,9 +48,12 @@ spotify: !include integrations/spotify.yaml
 utility_meter: !include integrations/utility_meter.yaml
 
 ### Set log level ###
+### Available log levels: critical, fatal, error, warning, warn, info, debug, notset
+
 logger:
   default: warning
-  #log levels critical, fatal, error, warning, warn, info, debug, notset
+  #logs:
+  #  homeassistant.components.webhook: debug
 
 ### Http access setup ###
 http:
