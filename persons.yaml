@@ -15,3 +15,13 @@
     - device_tracker.redmi_note_8t # HomeAssistant Mobile App for Xiaomi Redmi Note8
     # Disabled wifi tracking because of false 'awaý' reporting
     #- device_tracker.Nathasja_Note8t # Netgear wifi tracker for Xiaomi Redmi Note8
+
+- name: Indy
+  id: person_id_Indy
+  device_trackers:
+    - device_tracker.iphone_van_indy
+
+- name: Jamie
+  id: person_id_Jamie
+  device_trackers:
+    - device_tracker.iphonevanjamie
