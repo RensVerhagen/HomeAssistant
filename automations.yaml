@@ -190,12 +190,12 @@
   - platform: state
     entity_id: binary_sensor.eetkamer_presence
     to: 'off'
-    for: 0:15:00
+    for: 0:20:00
   condition:
   - condition: state
     entity_id: light.eetkamer
     state: 'on'
-    for: 0:30:00
+    for: 0:01:00
   action:
   - service: light.turn_off
     entity_id: light.eetkamer
@@ -248,12 +248,12 @@
   - platform: state
     entity_id: binary_sensor.keuken_presence
     to: 'off'
-    for: 0:15:00
+    for: 0:20:00
   condition:
   - condition: state
     entity_id: light.keuken
     state: 'on'
-    for: 0:30:00
+    for: 0:01:00
   action:
   - service: light.turn_off
     entity_id: light.keuken
