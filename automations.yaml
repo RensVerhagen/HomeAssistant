@@ -40,7 +40,7 @@
     conditions:
     - condition: state
       entity_id: alarm_control_panel.ha_alarm
-      state: 
+      state:
       - armed_away
       - armed_night
     - condition: state
@@ -271,7 +271,7 @@
   condition:
   - condition: state
     entity_id: alarm_control_panel.ha_alarm
-    state: 
+    state:
     - armed_night
     - armed_away
   action:
@@ -327,4 +327,46 @@
     data:
       entity_id: remote.harmony_hub
       activity: '{{trigger.to_state.state}}'
+  mode: single
+- id: '1627808388677'
+  alias: Cleanup - Vacuum Daily
+  description: Start Xiaomi Roborock cleanup when we're sleeping and last cleanup
+    was > 1 day ago
+  trigger:
+  - platform: time
+    at: input_datetime.cleanup_time
+  condition:
+  - condition: and
+    conditions:
+    - condition: state
+      entity_id: input_boolean.sleeping
+      state: 'on'
+    - condition: state
+      entity_id: vacuum.xiaomi_vacuum_cleaner
+      attribute: status
+      state:
+      - Docked
+      - Charging
+  action:
+  - device_id: 63e78c663d8faa6db81dd0f4298c673b
+    domain: vacuum
+    entity_id: vacuum.xiaomi_vacuum_cleaner
+    type: clean
+  mode: single
+- id: '1627817145776'
+  alias: Cleanup - Set Last Cleanup Time
+  description: Set last cleanup time if cleaned more than 30 minutes.
+  trigger:
+  - platform: state
+    entity_id: vacuum.xiaomi_vacuum_cleaner
+    attribute: status
+    for: 00:30:00
+    to: Cleaning
+  condition: []
+  action:
+  - service: input_datetime.set_datetime
+    data:
+      datetime: '{{ now().timestamp() }}'
+    target:
+      entity_id: input_datetime.last_cleanup
   mode: single
