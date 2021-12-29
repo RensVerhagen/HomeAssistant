@@ -1,0 +1,4 @@
+# Custom HACS integration for Sonoff: https://github.com/AlexxIT/SonoffLAN
+# sonoff:
+  username: !secret ewelink_username
+  password: !secret ewelink_password

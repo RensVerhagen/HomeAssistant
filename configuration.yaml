@@ -46,6 +46,7 @@ notify: !include integrations/notify.yaml
 tesla: !include integrations/tesla.yaml
 spotify: !include integrations/spotify.yaml
 utility_meter: !include integrations/utility_meter.yaml
+sonoff: !include integrations/sonoff.yaml
 
 ### Set log level ###
 ### Available log levels: critical, fatal, error, warning, warn, info, debug, notset
