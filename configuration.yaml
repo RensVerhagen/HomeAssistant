@@ -44,7 +44,6 @@ influxdb: !include integrations/influxdb.yaml
 nest: !include integrations/nest.yaml
 notify: !include integrations/notify.yaml
 alert: !include integrations/alert.yaml
-# tesla: !include integrations/tesla.yaml 2021-12-28 Disabled tesla integration, it's not supported anymore
 spotify: !include integrations/spotify.yaml
 utility_meter: !include integrations/utility_meter.yaml
 sonoff: !include integrations/sonoff.yaml
