@@ -1,0 +1,4 @@
+# Integration for Siemens Dishwasher: https://www.home-assistant.io/integrations/home_connect/
+# home_connect:
+  client_id: !secret homeconnect_clientid
+  client_secret: !secret homeconnect_clientsecret
