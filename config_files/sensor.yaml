@@ -24,7 +24,9 @@
     include_date_today: true  # (optional, default = false) to take or not to take Today into account in the next pickup.
     default_label: Geen # (optional, default = Geen) label if no date found
 
-  # Templates for rerieving last state
+  # Templates 
+  # e.g. for rerieving last state
+  # https://www.home-assistant.io/integrations/template/
   - platform: template
     sensors:
       ## Explain: use of the Value templates below
@@ -48,6 +50,24 @@
             mdi:washing-machine
           {% else %}
             mdi:washing-machine-off
+          {% endif %}
+
+      ## Vaatwasser ##
+      vaatwasser_state:
+        friendly_name_template: Vaatwasser status
+        value_template: >-
+          {% if is_state('switch.vaatwasser_power', 'on') %}
+            {{states.sensor.vaatwasser_operation_state.state}} resterende tijd: {{ as_timestamp(states.sensor.vaatwasser_remaining_program_time.state) | timestamp_custom('%H:%M', True) }}
+          {% else %}
+            {{states.switch.vaatwasser_power.state}}
+          {% endif %}
+        icon_template: >-
+          {% if is_state('sensor.vaatwasser_operation_state', 'run') %}
+            mdi:dishwasher
+          {% elif is_state('switch.vaatwasser_power', 'on') %}
+            mdi:dishwasher-alert
+          {% else %}
+            mdi:dishwasher-off
           {% endif %}
 
       ## Voordeur ##
