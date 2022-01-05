@@ -345,3 +345,26 @@
     target:
       entity_id: input_datetime.last_cleanup
   mode: single
+- id: '1641158665593'
+  alias: Car - Unlock Charging Port
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: binary_sensor.voordeur
+    from: 'off'
+    to: 'on'
+  condition:
+  - condition: state
+    entity_id: binary_sensor.model_3_charger_sensor
+    state: 'on'
+  - condition: numeric_state
+    entity_id: sensor.model_3_battery_sensor
+    above: '85'
+  - condition: state
+    entity_id: device_tracker.model_3_location_tracker
+    state: home
+  action:
+  - service: lock.unlock
+    target:
+      entity_id: lock.model_3_charger_door_lock
+  mode: single
