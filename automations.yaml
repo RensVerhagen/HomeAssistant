@@ -30,9 +30,9 @@
   trigger:
   - platform: state
     entity_id:
-    - binary_sensor.woonkamer_presence
-    - binary_sensor.eetkamer_presence
-    - binary_sensor.keuken_presence
+    - binary_sensor.woonkamer_movement
+    - binary_sensor.eetkamer_movement
+    - binary_sensor.keuken_movement
     from: 'off'
     to: 'on'
   condition:
@@ -78,6 +78,7 @@
       media_content_id: https://home.rensverhagen.nl/local/AlarmPending60.mp3
       media_content_type: audio/mp3
     entity_id: media_player.google_home
+  - service: script.show_alarm_panel
   mode: single
 - id: '1607444176030'
   alias: Alarm - Alarm Triggered
@@ -110,7 +111,7 @@
   description: Turns on lights in Eetkamer when it is dark and motion is detected
   trigger:
   - platform: state
-    entity_id: binary_sensor.eetkamer_presence
+    entity_id: binary_sensor.eetkamer_movement
     to: 'on'
   condition:
   - condition: numeric_state
@@ -132,7 +133,7 @@
   description: Turns on lights in Woonkamer when it is dark and motion is detected.
   trigger:
   - platform: state
-    entity_id: binary_sensor.woonkamer_presence
+    entity_id: binary_sensor.woonkamer_movement
     to: 'on'
   condition:
   - condition: numeric_state
@@ -169,9 +170,9 @@
   trigger:
   - platform: state
     entity_id:
-    - binary_sensor.woonkamer_presence
-    - binary_sensor.eetkamer_presence
-    - binary_sensor.keuken_presence
+    - binary_sensor.woonkamer_movement
+    - binary_sensor.eetkamer_movement
+    - binary_sensor.keuken_movement
     from: 'off'
     to: 'on'
   condition:
@@ -185,7 +186,7 @@
   mode: single
 - id: '1608586872962'
   alias: Lights - Eetkamer Turn off
-  description: Turns off lights in Eetkamer when no motion is detected
+  description: Turns off lights in Eetkamer when no precense is detected
   trigger:
   - platform: state
     entity_id: binary_sensor.eetkamer_presence
@@ -228,7 +229,7 @@
   description: Turns on lights in Keuken when it is dark and motion is detected
   trigger:
   - platform: state
-    entity_id: binary_sensor.keuken_presence
+    entity_id: binary_sensor.keuken_movement
     to: 'on'
   condition:
   - condition: numeric_state
@@ -247,7 +248,7 @@
   mode: single
 - id: '1608745639683'
   alias: Lights - Keuken Turn off
-  description: Turns off lights in Keuken when no motion is detected
+  description: Turns off lights in Keuken when no presence is detected
   trigger:
   - platform: state
     entity_id: binary_sensor.keuken_presence
