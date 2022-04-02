@@ -86,19 +86,6 @@ zone:
   radius: 180
   icon: mdi:worker
 
-# Check if users are at home via netgear router connection 
-device_tracker:
-  - platform: netgear
-    host: !secret router_ip
-    username: !secret router_username
-    password: !secret router_password
-    # Check every minute for new devices
-    interval_seconds: 60
-    # Wait atleast 5 minutes before setting away status
-    consider_home: 0:05
-    new_device_defaults:
-      track_new_devices: true # New devices will be tracked by default -> change tracking per device in the known_devices.yaml
-
 # Text to speech
 tts:
   - platform: google_translate
