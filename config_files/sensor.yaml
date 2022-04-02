@@ -1,7 +1,8 @@
 # Sensors
 
+  # Deprecated in 2022.3
   # External IP Address
-  - platform: dnsip
+  # - platform: dnsip
 
   # Travis-CI Sensor for continues integration
   - platform: travisci
