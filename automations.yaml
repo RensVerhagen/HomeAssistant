@@ -369,3 +369,49 @@
     target:
       entity_id: lock.model_3_charger_door_lock
   mode: single
+- id: '1644962344513'
+  alias: Doorbell - Send notification
+  description: Send notification when doorbell is pressed to all devices
+  trigger:
+  - type: turned_on
+    platform: device
+    device_id: b080a8910a40998b3b6401335df8fc6e
+    entity_id: binary_sensor.doorbell
+    domain: binary_sensor
+  condition: []
+  action:
+  - service: notify.all_devices
+    data:
+      title: Ding dong!
+      message: Er staat iemand bij de deur
+  mode: single
+- id: '1644962908293'
+  alias: Doorbell - (De)Activate Chime
+  description: Deactivate doorbell chime when we are sleeping and turn on when we
+    are awake
+  trigger:
+  - platform: state
+    entity_id: input_boolean.sleeping
+  condition: []
+  action:
+  - choose:
+    - conditions:
+      - condition: state
+        entity_id: input_boolean.sleeping
+        state: 'on'
+      sequence:
+      - type: turn_off
+        device_id: b080a8910a40998b3b6401335df8fc6e
+        entity_id: switch.doorbell_chime_active
+        domain: switch
+    - conditions:
+      - condition: state
+        entity_id: input_boolean.sleeping
+        state: 'off'
+      sequence:
+      - type: turn_on
+        device_id: b080a8910a40998b3b6401335df8fc6e
+        entity_id: switch.doorbell_chime_active
+        domain: switch
+    default: []
+  mode: single
