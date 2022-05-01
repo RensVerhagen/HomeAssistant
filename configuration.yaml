@@ -48,6 +48,7 @@ spotify: !include integrations/spotify.yaml
 utility_meter: !include integrations/utility_meter.yaml
 sonoff: !include integrations/sonoff.yaml
 home_connect: !include integrations/home_connect.yaml
+indego: !include integrations/indego.yaml
 
 ### Set log level ###
 ### Available log levels: critical, fatal, error, warning, warn, info, debug, notset

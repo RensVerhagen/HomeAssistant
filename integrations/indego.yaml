@@ -1,0 +1,6 @@
+# Custom integration for Bosch Indego mower: https://github.com/jm-73/Indego
+# indego:
+  name: Indego mower
+  username: !secret indego_username
+  password: !secret indego_password
+  id: !secret indego_id
