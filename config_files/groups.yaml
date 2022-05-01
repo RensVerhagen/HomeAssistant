@@ -25,7 +25,6 @@ main_floor:
     - light.woonkamer
     - light.keuken
     - remote.harmony_hub
-    - switch.smart_switch_1
     - media_player.google_home
     - media_player.nest_hub_woonkamer
 
@@ -34,3 +33,5 @@ outside:
   entities:
     - light.schuur_buiten
     - light.voordeur
+    - light.tuin_grondspots_rechts
+    - light.tuin_grondspots_links
