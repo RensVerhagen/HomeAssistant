@@ -62,7 +62,7 @@
   trigger:
   - platform: time
     at: 
-      - sensor.oneplus8_volgende_alarm # Next alarm Phone Rens
+      - sensor.pixel_6_next_alarm # Next alarm Phone Rens
       - sensor.redmi_note_8t_next_alarm # Next alarm Phone Tas
   condition:
     - condition: state

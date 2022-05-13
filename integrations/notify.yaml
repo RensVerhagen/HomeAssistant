@@ -3,8 +3,19 @@
   - name: notify_pushbullet
     platform: pushbullet
     api_key: !secret pushbullet_apikey
+
   - name: all_devices
     platform: group
     services:
-      - service: mobile_app_oneplus8
+      - service: mobile_app_pixel_6
+      - service: mobile_app_redmi_note_8t
+
+  - name: rens
+    platform: group
+    services:
+      - service: mobile_app_pixel_6
+
+  - name: nathasja
+    platform: group
+    services:
       - service: mobile_app_redmi_note_8t

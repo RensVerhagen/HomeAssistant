@@ -6,10 +6,13 @@
     event: start
   condition: []
   action:
-  - service: notify.mobile_app_oneplus8
+  - service: notify.rens
     data:
-      title: HA Settings
+      title: HA Started
       message: Home Assistant succesfully Started
+      data:
+        channel: System
+        importance: low
   mode: single
 - id: '1606926764664'
   alias: HA Stop notify
@@ -19,10 +22,13 @@
     event: shutdown
   condition: []
   action:
-  - service: notify.mobile_app_oneplus8
+  - service: notify.rens
     data:
-      title: HA Settings
-      message: Home Assistant Stopped
+      title: HA Stopped
+      message: Home Assistant was Stopped
+      data:
+        channel: System
+        importance: low
   mode: single
 - id: '1607178039348'
   alias: Alarm - Trigger the Alarm (Motion)
@@ -67,12 +73,15 @@
       title: Alarm
       message: Het alarm zal over 60 seconden afgaan!
       data:
+        channel: Alarm
+        importance: high
         actions:
         - action: alarm_disarm
           title: Alarm uitschakelen
         - action: URI
           title: Open Alarm Paneel
           uri: lovelace/security
+
   - service: media_player.play_media
     data:
       media_content_id: https://home.rensverhagen.nl/local/AlarmPending60.mp3
@@ -94,6 +103,8 @@
       title: Alarm
       message: Het alarm is afgegaan!
       data:
+        channel: Alarm
+        importance: high
         actions:
         - action: alarm_disarm
           title: Alarm uitschakelen
@@ -159,7 +170,7 @@
     from: 'off'
   condition: []
   action:
-  - service: notify.mobile_app_oneplus8
+  - service: notify.rens
     data:
       title: Test
       message: 'from: ''off'' to: ''on'''
@@ -384,6 +395,9 @@
     data:
       title: Ding dong!
       message: Er staat iemand bij de deur
+      data:
+        channel: Doorbell
+        importance: high
   mode: single
 - id: '1644962908293'
   alias: Doorbell - (De)Activate Chime
