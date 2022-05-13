@@ -429,3 +429,76 @@
         domain: switch
     default: []
   mode: single
+- id: '1651602620853'
+  alias: Mower - Set Mower state based on Toggle
+  description: When helper toggle is set, make sure that the mower is turned on/off
+  trigger:
+  - platform: state
+    entity_id: input_boolean.mower
+    for:
+      hours: 0
+      minutes: 0
+      seconds: 5
+  condition: []
+  action:
+  - choose:
+    - conditions:
+      - condition: state
+        entity_id: input_boolean.mower
+        state: 'on'
+      - condition: state
+        entity_id: sensor.indego_128604519_mower_state
+        state: Docked
+      sequence:
+      - service: indego.command
+        data:
+          command: mow
+    - conditions:
+      - condition: state
+        entity_id: input_boolean.mower
+        state: 'off'
+      - condition: state
+        entity_id: sensor.indego_128604519_mower_state
+        state: Mowing
+      sequence:
+      - service: indego.command
+        data:
+          command: returnToDock
+    default: []
+  mode: single
+- id: '1651605735910'
+  alias: Mower - Set Toggle based on Mower state
+  description: When mower state changes, make sure that the toggle is is turned on/off
+    as well
+  trigger:
+  - platform: state
+    entity_id: sensor.indego_128604519_mower_state
+  condition: []
+  action:
+  - choose:
+    - conditions:
+      - condition: state
+        entity_id: input_boolean.mower
+        state: 'on'
+      - condition: state
+        entity_id: sensor.indego_128604519_mower_state
+        state: Docked
+      sequence:
+      - service: input_boolean.turn_off
+        data: {}
+        target:
+          entity_id: input_boolean.mower
+    - conditions:
+      - condition: state
+        entity_id: input_boolean.mower
+        state: 'off'
+      - condition: state
+        entity_id: sensor.indego_128604519_mower_state
+        state: Mowing
+      sequence:
+      - service: input_boolean.turn_on
+        data: {}
+        target:
+          entity_id: input_boolean.mower
+    default: []
+  mode: single
