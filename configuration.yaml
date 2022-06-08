@@ -27,14 +27,9 @@ homeassistant:
 automation: !include automations.yaml
 automation backend: !include config_files/backend_automations.yaml
 script: !include scripts.yaml
-person: !include persons.yaml
 scene: !include scenes.yaml
 group: !include config_files/groups.yaml
 sensor: !include config_files/sensor.yaml
-input_boolean: !include config_files/input_boolean.yaml
-input_select: !include config_files/input_select.yaml
-input_number: !include config_files/input_number.yaml
-input_text: !include config_files/input_text.yaml
 alarm_control_panel: !include config_files/alarm_control_panel.yaml
 camera: !include config_files/cameras.yaml
 
