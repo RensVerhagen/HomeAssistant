@@ -38,10 +38,8 @@ google_assistant: !include integrations/google_assistant.yaml
 nest: !include integrations/nest.yaml
 notify: !include integrations/notify.yaml
 alert: !include integrations/alert.yaml
-spotify: !include integrations/spotify.yaml
 utility_meter: !include integrations/utility_meter.yaml
 sonoff: !include integrations/sonoff.yaml
-home_connect: !include integrations/home_connect.yaml
 indego: !include integrations/indego.yaml
 
 ### Set log level ###
