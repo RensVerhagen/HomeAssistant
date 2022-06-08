@@ -6,3 +6,7 @@
     input: rtsp://192.168.2.50/live0
     name: Eufy_Indoor_Cam1
 
+  - platform: ffmpeg
+    input: rtsp://192.168.2.51/live0
+    name: Eufy_Indoor_Cam2
+
