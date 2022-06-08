@@ -1,6 +1,0 @@
-### Custom Input Text Fields ###
-
-# Field used to store the external IP address
-external_ip:
-  name: External IP
-  icon: mdi:wan
