@@ -81,7 +81,6 @@
         - action: URI
           title: Open Alarm Paneel
           uri: lovelace/security
-
   - service: media_player.play_media
     data:
       media_content_id: https://home.rensverhagen.nl/local/AlarmPending60.mp3
@@ -122,7 +121,9 @@
   description: Turns on lights in Eetkamer when it is dark and motion is detected
   trigger:
   - platform: state
-    entity_id: binary_sensor.eetkamer_movement
+    entity_id:
+    - binary_sensor.eetkamer_movement
+    - binary_sensor.achterdeur
     to: 'on'
   condition:
   - condition: numeric_state
