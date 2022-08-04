@@ -8,7 +8,7 @@
     platform: group
     services:
       - service: mobile_app_pixel_6
-      - service: mobile_app_redmi_note_8t
+      - service: mobile_app_oneplus8pro
 
   - name: rens
     platform: group
@@ -18,4 +18,4 @@
   - name: nathasja
     platform: group
     services:
-      - service: mobile_app_redmi_note_8t
+      - service: mobile_app_oneplus8pro

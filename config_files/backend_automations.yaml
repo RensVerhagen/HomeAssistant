@@ -63,7 +63,7 @@
   - platform: time
     at: 
       - sensor.pixel_6_next_alarm # Next alarm Phone Rens
-      - sensor.redmi_note_8t_next_alarm # Next alarm Phone Tas
+      - sensor.oneplus8pro_next_alarm # Next alarm Phone Tas
   condition:
     - condition: state
       entity_id: input_boolean.home_presence
