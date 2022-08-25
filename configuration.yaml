@@ -35,7 +35,6 @@ camera: !include config_files/cameras.yaml
 
 ### Include dependent intregration files ###
 google_assistant: !include integrations/google_assistant.yaml
-nest: !include integrations/nest.yaml
 notify: !include integrations/notify.yaml
 alert: !include integrations/alert.yaml
 utility_meter: !include integrations/utility_meter.yaml
