@@ -2,12 +2,56 @@
 # google_assistant:
   project_id: !secret google_projectid
   service_account: !include ../GoogleAssistant-key.json
-  expose_by_default: false
   report_state: true
+  expose_by_default: false
   entity_config:
-    light.keuken:
-      name: Keuken Lampen
+    light.eetkamer:
+      room: Eetkamer
       expose: true
+    light.keuken:
+      room: Keuken
+      expose: true
+    light.woonkamer:
+      room: Woonkamer
+      expose: true
+    light.voordeur:
+      room: Buiten
+      expose: true
+    light.schuur_buiten:
+      room: Buiten
+      expose: true
+    light.tuin_grondspots_links:
+      room: Buiten
+      expose: true
+    light.tuin_grondspots_rechts:
+      room: Buiten
+      expose: true
+
+    input_boolean.mower:
+      room: Buiten
+      expose: true
+      aliases:
+        - Grasmaaier
+        - Ga Grasmaaien
+    switch.sonoff_sprinklers:
+      room: Buiten
+      expose: true
+      aliases:
+        - Gras sproeien
+        - Gras water geven
+
+    climate.airco_zolder:
+      room: Kamer Kate
+      expose: true
+    climate.model_3_hvac_climate_system:
+      room: Buiten
+      name: Airco auto
+      expose: true
+      aliases:
+        - auto
+        - tesla
+        - model 3
+
     scene.gotosleep:
       name: Naar bed
       expose: true
