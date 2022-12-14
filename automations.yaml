@@ -553,3 +553,38 @@
     target:
       entity_id: input_boolean.waste_collect
   mode: single
+- id: '1660266676956'
+  alias: Lights - Philips Hue Dimmer Switch - Woonkamer [BLUEPRINT ON]
+  description: ''
+  use_blueprint:
+    path: vanstinator/zha-philips-hue-dimmer-switch-rwl020-rwl021.yaml
+    input:
+      remote: c0292cc5e66a7cc86d402e11f055c168
+      light:
+        entity_id: light.woonkamer
+      force_brightness: true
+      brightness: 60
+- id: '1661847323319'
+  alias: Lights - Philips Hue Dimmer Switch - Woonkamer [BLUEPRINT OFF]
+  description: ''
+  use_blueprint:
+    path: Jessendelft/hue_dimmer_switchV3.yaml
+    input:
+      remote: c0292cc5e66a7cc86d402e11f055c168
+      light: light.woonkamer
+      min_brightness: 0
+      button_on_single:
+      - service: light.turn_on
+        data:
+          color_temp: 350
+        target:
+          entity_id: light.woonkamer
+- id: '1661973733840'
+  alias: Lights - Schuur Ledstrip Run Colorloop
+  description: ''
+  use_blueprint:
+    path: hugalafutro/Color_Loop.yaml
+    input:
+      cl_light:
+        entity_id:
+        - light.schuur_ledstrip_raam
