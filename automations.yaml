@@ -490,7 +490,15 @@
     as well
   trigger:
   - platform: state
-    entity_id: sensor.indego_128604519_mower_state
+    entity_id:
+    - sensor.indego_128604519_mower_state
+    from: Mowing
+    to: Docked
+  - platform: state
+    entity_id:
+    - sensor.indego_128604519_mower_state
+    to: Mowing
+    from: Docked
   condition: []
   action:
   - choose:
