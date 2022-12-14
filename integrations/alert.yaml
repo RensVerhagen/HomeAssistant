@@ -1,12 +1,13 @@
 # alerts for recurring warning: https://www.home-assistant.io/integrations/alert/
 # alert:
   afval_gft:
-    name: Groenbak buiten zetten
-    done_message: Groenbak is buitengezet
-    entity_id: input_boolean.wastecollect_gft
+    name: Afval buiten zetten
+    message: Afval buiten zetten!
+    done_message: Afval is buitengezet
+    entity_id: input_boolean.waste_collect
     state: "on"
-    repeat: 5
+    repeat: 120
     can_acknowledge: true
-    skip_first: true
+    skip_first: false
     notifiers:
-      - all_devices
+      - rens
