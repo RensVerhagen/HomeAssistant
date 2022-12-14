@@ -1,6 +1,7 @@
 - id: '1606926697561'
-  alias: HA Start notify
-  description: Sends push notification to OnePlus when HA is started
+  alias: Home Assistant - Startup automation
+  description: Sends push notification to OnePlus when HA is started and turns ons
+    cameras.
   trigger:
   - platform: homeassistant
     event: start
@@ -13,9 +14,16 @@
       data:
         channel: System
         importance: low
+  - service: camera.turn_on
+    data: {}
+    target:
+      area_id:
+      - babykamer
+      - zolder
+      - 2bf8bf6a88fe7668c26a7c9d15f993e9
   mode: single
 - id: '1606926764664'
-  alias: HA Stop notify
+  alias: Home Assistant - Stop notification
   description: Sends push notification to OnePlus when HA is shutdown
   trigger:
   - platform: homeassistant
@@ -399,6 +407,15 @@
       data:
         channel: Doorbell
         importance: high
+        image: /api/camera_proxy/camera.voordeur
+        actions:
+        - action: URI
+          title: Toon camera voordeur
+          uri: entityId:camera.voordeur
+  - service: camera.turn_on
+    data: {}
+    target:
+      entity_id: camera.voordeur
   mode: single
 - id: '1644962908293'
   alias: Doorbell - (De)Activate Chime
