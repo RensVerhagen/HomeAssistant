@@ -1,9 +1,5 @@
 # Notification handling: Groups & Pushbullet integration
 # notify:
-  - name: notify_pushbullet
-    platform: pushbullet
-    api_key: !secret pushbullet_apikey
-
   - name: all_devices
     platform: group
     services:
