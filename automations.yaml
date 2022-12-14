@@ -588,3 +588,53 @@
       cl_light:
         entity_id:
         - light.schuur_ledstrip_raam
+- id: '1662031659290'
+  alias: Alarm - Sync Alarm Control Panel States
+  description: This automation syncs the HA Alarm state with other alarm panels such
+    as the Eufy Cameras
+  trigger:
+  - platform: state
+    entity_id:
+    - alarm_control_panel.ha_alarm
+  condition: []
+  action:
+  - choose:
+    - conditions:
+      - condition: state
+        entity_id: alarm_control_panel.ha_alarm
+        state: armed_away
+      sequence:
+      - service: alarm_control_panel.alarm_arm_away
+        data: {}
+        target:
+          entity_id:
+          - alarm_control_panel.dex
+          - alarm_control_panel.extra
+          - alarm_control_panel.kate
+          - alarm_control_panel.homebase
+    - conditions:
+      - condition: state
+        entity_id: alarm_control_panel.ha_alarm
+        state: armed_night
+      sequence:
+      - service: alarm_control_panel.alarm_arm_night
+        data: {}
+        target:
+          entity_id:
+          - alarm_control_panel.extra
+          - alarm_control_panel.homebase
+    - conditions:
+      - condition: state
+        entity_id: alarm_control_panel.ha_alarm
+        state: disarmed
+      sequence:
+      - service: alarm_control_panel.alarm_arm_home
+        data: {}
+        target:
+          entity_id:
+          - alarm_control_panel.dex
+          - alarm_control_panel.extra
+          - alarm_control_panel.kate
+          - alarm_control_panel.homebase
+    default: []
+  mode: single
