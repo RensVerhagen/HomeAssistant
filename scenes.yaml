@@ -3,7 +3,7 @@
   entities:
     input_boolean.sleeping: true
 - id: '1651781959963'
-  name: Tuin - Avond Normaal
+  name: Tuin - Avond (Normaal)
   entities:
     light.schuur_buiten:
       color_mode: brightness
@@ -11,17 +11,22 @@
       state: 'on'
     light.tuin_grondspots_links:
       color_mode: color_temp
-      brightness_pct: 75
+      brightness_pct: 70
       color_temp: 375
       state: 'on'
     light.tuin_grondspots_rechts:
       color_mode: color_temp
-      brightness_pct: 75
+      brightness_pct: 70
+      color_temp: 375
+      state: 'on'
+    light.voordeur:
+      color_mode: color_temp
+      brightness_pct: 70
       color_temp: 375
       state: 'on'
   icon: mdi:weather-night
 - id: '1651782652837'
-  name: Tuin - Avond Buiten
+  name: Tuin - Avond (Buiten)
   entities:
     light.schuur_buiten:
       color_mode: brightness
@@ -35,6 +40,31 @@
     light.tuin_grondspots_rechts:
       color_mode: color_temp
       brightness_pct: 100
+      color_temp: 375
+      state: 'on'
+  icon: mdi:weather-night
+- id: '1665342835214'
+  name: Tuin - Avond (Slapen)
+  entities:
+    light.schuur_buiten:
+      color_mode: brightness
+      brightness_pct: 25
+      state: 'on'
+    light.tuin_grondspots_links:
+      color_mode: color_temp
+      brightness_pct: 25
+      color_temp: 375
+      state: 'on'
+    light.tuin_grondspots_rechts:
+      color_mode: color_temp
+      brightness_pct: 25
+      color_temp: 375
+      state: 'on'
+    light.voordeur_1:
+      state: 'off'
+    light.voordeur_2:
+      color_mode: color_temp
+      brightness_pct: 25
       color_temp: 375
       state: 'on'
   icon: mdi:weather-night
