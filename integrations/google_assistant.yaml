@@ -38,7 +38,7 @@
       expose: true
       aliases:
         - Gras sproeien
-        - Gras water geven
+        - Sproeiers
 
     climate.airco_zolder:
       room: Kamer Kate
