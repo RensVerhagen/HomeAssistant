@@ -528,3 +528,28 @@
           entity_id: input_boolean.mower
     default: []
   mode: single
+- id: '1659563358634'
+  alias: Waste - Turn on Waste Collector
+  description: When waste needs to be picked-up next day, enable waste collector so
+    that alerts notifications are sent to all devices.
+  trigger:
+  - platform: time
+    at: '18:00:00'
+  condition:
+  - condition: state
+    entity_id: input_boolean.waste_collect
+    state: 'off'
+  - condition: numeric_state
+    entity_id: sensor.afvalwijzer_next_in_days
+    below: '2'
+  action:
+  - wait_for_trigger:
+    - platform: state
+      entity_id:
+      - input_boolean.home_presence
+      to: 'on'
+  - service: input_boolean.turn_on
+    data: {}
+    target:
+      entity_id: input_boolean.waste_collect
+  mode: single
