@@ -638,3 +638,263 @@
           - alarm_control_panel.homebase
     default: []
   mode: single
+- id: '1665317579658'
+  alias: Lights - Outdoor Sunset
+  description: When sun is set turn on lights in garden
+  trigger:
+  - platform: sun
+    event: sunset
+    offset: 0
+  condition: []
+  action:
+  - service: scene.turn_on
+    data:
+      transition: 10
+    target:
+      entity_id: scene.tuin_avond_normaal
+  mode: single
+- id: '1665346843605'
+  alias: Lights - Outdoor Sunrise
+  description: Disable outdoor lights on Sunrise
+  trigger:
+  - platform: sun
+    event: sunrise
+    offset: 0
+  condition: []
+  action:
+  - service: light.turn_off
+    data:
+      transition: 5
+    target:
+      area_id: 2bf8bf6a88fe7668c26a7c9d15f993e9
+  mode: single
+- id: '1666034731318'
+  alias: Lights - Overkapping (on/off)
+  description: Turns on lights in Overkapping when motion is detected or door is opened
+    and turn off automatically
+  trigger:
+  - platform: state
+    entity_id:
+    - binary_sensor.overkapping_presence
+  - platform: state
+    entity_id:
+    - binary_sensor.overkapping_movement
+  - platform: state
+    entity_id:
+    - binary_sensor.overkapping_deur
+  condition: []
+  action:
+  - choose:
+    - conditions:
+      - condition: numeric_state
+        entity_id: sensor.overkapping_lightlevel
+        below: 100
+      - condition: or
+        conditions:
+        - condition: state
+          entity_id: binary_sensor.overkapping_movement
+          state: 'on'
+        - condition: state
+          entity_id: binary_sensor.overkapping_deur
+          state: 'on'
+      sequence:
+      - service: light.turn_on
+        data:
+          brightness_pct: 100
+        target:
+          entity_id: light.overkapping_lampen
+    - conditions:
+      - condition: state
+        entity_id: binary_sensor.overkapping_presence
+        state: 'on'
+      - condition: state
+        entity_id: binary_sensor.overkapping_movement
+        state: 'off'
+      - condition: state
+        entity_id: light.overkapping_lampen
+        state: 'on'
+      sequence:
+      - service: light.turn_on
+        data:
+          brightness_pct: 1
+          transition: 3
+        target:
+          entity_id: light.overkapping_lampen
+    - conditions:
+      - condition: state
+        entity_id: binary_sensor.overkapping_presence
+        state: 'off'
+      - condition: state
+        entity_id: binary_sensor.overkapping_movement
+        state: 'off'
+      - condition: state
+        entity_id: binary_sensor.overkapping_deur
+        state: 'off'
+        for:
+          hours: 0
+          minutes: 1
+          seconds: 0
+      sequence:
+      - service: light.turn_off
+        data: {}
+        target:
+          entity_id: light.overkapping_lampen
+  mode: single
+- id: '1666820649282'
+  alias: Lights - Gang beneden (on/off)
+  description: Turns on lights in gang when motion is detected or door is opened and
+    turn off automatically
+  trigger:
+  - platform: state
+    entity_id:
+    - binary_sensor.gang_presence
+  - platform: state
+    entity_id:
+    - binary_sensor.gang_movement
+  - platform: state
+    entity_id:
+    - binary_sensor.gangdeur
+    to: 'on'
+  - platform: state
+    entity_id:
+    - binary_sensor.voordeur
+    to: 'on'
+  condition: []
+  action:
+  - choose:
+    - conditions:
+      - condition: numeric_state
+        entity_id: sensor.gang_lightlevel
+        below: 50
+      - condition: or
+        conditions:
+        - condition: state
+          entity_id: binary_sensor.gang_movement
+          state: 'on'
+        - condition: state
+          entity_id: binary_sensor.gangdeur
+          state: 'on'
+        - condition: state
+          entity_id: binary_sensor.voordeur
+          state: 'on'
+      sequence:
+      - service: light.turn_on
+        data:
+          brightness_pct: 45
+        target:
+          entity_id: light.gang_lampen
+    - conditions:
+      - condition: state
+        entity_id: binary_sensor.gang_presence
+        state: 'on'
+      - condition: state
+        entity_id: binary_sensor.gang_movement
+        state: 'off'
+      - condition: state
+        entity_id: light.gang_lampen
+        state: 'on'
+      sequence:
+      - service: light.turn_on
+        data:
+          brightness_pct: 1
+          transition: 3
+        target:
+          entity_id: light.gang_lampen
+    - conditions:
+      - condition: state
+        entity_id: binary_sensor.gang_presence
+        state: 'off'
+      - condition: state
+        entity_id: binary_sensor.gang_movement
+        state: 'off'
+      - condition: state
+        entity_id: binary_sensor.gangdeur
+        state: 'off'
+        for:
+          hours: 0
+          minutes: 0
+          seconds: 15
+      sequence:
+      - service: light.turn_off
+        data: {}
+        target:
+          entity_id: light.gang_lampen
+  mode: single
+- id: '1668026155258'
+  alias: Lights - Overkapping Schuur (on/off)
+  description: Turns on schuur overkapping ledstrip when motion is detected or door
+    is opened and turn off automatically
+  trigger:
+  - platform: state
+    entity_id:
+    - binary_sensor.schuur_overkapping_presence
+  - platform: state
+    entity_id:
+    - binary_sensor.schuur_overkapping_movement
+  - platform: state
+    entity_id:
+    - binary_sensor.schuur_voordeur
+  condition: []
+  action:
+  - choose:
+    - conditions:
+      - condition: numeric_state
+        entity_id: sensor.schuur_overkapping_lightlevel
+        below: 60
+      - condition: or
+        conditions:
+        - condition: state
+          entity_id: binary_sensor.schuur_overkapping_movement
+          state: 'on'
+        - condition: state
+          entity_id: binary_sensor.schuur_voordeur
+          state: 'on'
+      sequence:
+      - service: light.turn_on
+        data:
+          brightness_pct: 100
+        target:
+          entity_id: light.schuur_ledstrip_overkapping
+    - conditions:
+      - condition: state
+        entity_id: binary_sensor.schuur_overkapping_presence
+        state: 'on'
+      - condition: state
+        entity_id: binary_sensor.schuur_overkapping_movement
+        state: 'off'
+      - condition: state
+        entity_id: light.schuur_ledstrip_overkapping
+        state: 'on'
+      - condition: state
+        entity_id: binary_sensor.schuur_voordeur
+        state: 'off'
+        for:
+          hours: 0
+          minutes: 0
+          seconds: 30
+      sequence:
+      - service: light.turn_on
+        data:
+          brightness_pct: 10
+        target:
+          entity_id: light.schuur_ledstrip_overkapping
+    - conditions:
+      - condition: state
+        entity_id: binary_sensor.schuur_overkapping_presence
+        state: 'off'
+      - condition: state
+        entity_id: binary_sensor.schuur_overkapping_movement
+        state: 'off'
+      - condition: state
+        entity_id: binary_sensor.schuur_voordeur
+        state: 'off'
+        for:
+          hours: 0
+          minutes: 0
+          seconds: 30
+      sequence:
+      - service: light.turn_off
+        data: {}
+        target:
+          entity_id: light.schuur_ledstrip_overkapping
+  mode: single
