@@ -948,3 +948,49 @@
     input:
       cl_light:
         entity_id: light.overkapping_4
+- id: '1682939415231'
+  alias: Sprinklers - Calendar Automation
+  description: Enables/Disables sprinklers on set times, except when it's raining
+  trigger:
+  - platform: state
+    entity_id:
+    - calendar.garden_schema
+  action:
+  - choose:
+    - conditions:
+      - condition: state
+        entity_id: calendar.garden_schema
+        attribute: message
+        state: Gras Sproeien
+      - condition: state
+        entity_id: calendar.garden_schema
+        state: 'on'
+      - condition: not
+        conditions:
+        - condition: or
+          conditions:
+          - condition: state
+            entity_id: weather.station_home
+            state: rainy
+          - condition: state
+            entity_id: weather.station_home
+            state: pouring
+      sequence:
+      - service: switch.turn_on
+        data: {}
+        target:
+          entity_id: switch.sonoff_sprinklers
+    - conditions:
+      - condition: state
+        entity_id: calendar.garden_schema
+        attribute: message
+        state: Gras Sproeien
+      - condition: state
+        entity_id: calendar.garden_schema
+        state: 'off'
+      sequence:
+      - service: switch.turn_off
+        data: {}
+        target:
+          entity_id: switch.sonoff_sprinklers
+  mode: single
