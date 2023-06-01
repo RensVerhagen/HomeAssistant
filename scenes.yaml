@@ -47,19 +47,11 @@
   name: Tuin - Avond (Slapen)
   entities:
     light.schuur_buiten:
-      color_mode: brightness
-      brightness_pct: 25
-      state: 'on'
+      state: 'off'
     light.tuin_grondspots_links:
-      color_mode: color_temp
-      brightness_pct: 25
-      color_temp: 375
-      state: 'on'
+      state: 'off'
     light.tuin_grondspots_rechts:
-      color_mode: color_temp
-      brightness_pct: 25
-      color_temp: 375
-      state: 'on'
+      state: 'off'
     light.voordeur_1:
       state: 'off'
     light.voordeur_2:
