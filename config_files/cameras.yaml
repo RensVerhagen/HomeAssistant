@@ -10,3 +10,11 @@
     input: rtsp://192.168.2.51/live0
     name: Eufy_Indoor_Cam2
 
+  - platform: xiaomi_cloud_map_extractor
+    host: !secret roborock_host
+    token: !secret roborock_token
+    username: !secret xiaomi_cloud_username
+    password: !secret xiaomi_cloud_password
+    draw: ['all']
+    attributes:
+      - calibration_points
