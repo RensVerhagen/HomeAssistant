@@ -652,6 +652,15 @@
       transition: 10
     target:
       entity_id: scene.tuin_avond_normaal
+  - delay:
+      hours: 0
+      minutes: 0
+      seconds: 5
+      milliseconds: 0
+  - service: scene.turn_on
+    data: {}
+    target:
+      entity_id: scene.tuin_avond_normaal
   mode: single
 - id: '1665346843605'
   alias: Lights - Outdoor Sunrise
