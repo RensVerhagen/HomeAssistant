@@ -4,12 +4,6 @@
   # External IP Address
   # - platform: dnsip
 
-  # Travis-CI Sensor for continues integration
-  - platform: travisci
-    api_key: !secret travis_token
-    branch: master
-    repository: HomeAssistant
-
   # Date Time Sensors
   - platform: time_date
     display_options:
