@@ -7,3 +7,189 @@ show_alarm_panel:
       dashboard_path: lovelace-cast
       view_path: alarm
   mode: single
+lights_door_open_effect:
+  alias: Lights Outdoor - Door Open effect
+  sequence:
+  - service: light.turn_on
+    data:
+      flash: short
+    target:
+      entity_id: light.tuin_grondspot_1_level_light_color_on_off
+  - delay:
+      hours: 0
+      minutes: 0
+      seconds: 1
+      milliseconds: 0
+  - service: light.turn_on
+    data:
+      flash: short
+    target:
+      entity_id: light.tuin_grondspot_2_level_light_color_on_off
+  - delay:
+      hours: 0
+      minutes: 0
+      seconds: 1
+      milliseconds: 0
+  - service: light.turn_on
+    data:
+      flash: short
+    target:
+      entity_id: light.tuin_grondspot_3_level_light_color_on_off
+  - delay:
+      hours: 0
+      minutes: 0
+      seconds: 1
+      milliseconds: 0
+  - service: light.turn_on
+    data:
+      flash: short
+    target:
+      entity_id: light.tuin_grondspot_4_level_light_color_on_off
+  - delay:
+      hours: 0
+      minutes: 0
+      seconds: 1
+      milliseconds: 0
+  mode: single
+  icon: mdi:lightbulb-auto
+lights_party_mode_outdoor:
+  alias: Lights - Party Mode Outdoor 1
+  sequence:
+  - service: light.turn_on
+    data:
+      brightness_pct: 100
+      effect: colorloop
+    target:
+      entity_id: light.tuin_grondspot_1_level_light_color_on_off
+  - delay:
+      hours: 0
+      minutes: 0
+      seconds: 2
+      milliseconds: 0
+  - service: light.turn_on
+    data:
+      brightness_pct: 100
+      effect: colorloop
+    target:
+      entity_id: light.tuin_grondspot_2_level_light_color_on_off
+  - delay:
+      hours: 0
+      minutes: 0
+      seconds: 2
+      milliseconds: 0
+  - service: light.turn_on
+    data:
+      brightness_pct: 100
+      effect: colorloop
+    target:
+      entity_id: light.tuin_grondspot_3_level_light_color_on_off
+  - delay:
+      hours: 0
+      minutes: 0
+      seconds: 2
+      milliseconds: 0
+  - service: light.turn_on
+    data:
+      brightness_pct: 100
+      effect: colorloop
+    target:
+      entity_id: light.tuin_grondspot_4_level_light_color_on_off
+  - delay:
+      hours: 0
+      minutes: 0
+      seconds: 2
+      milliseconds: 0
+  - service: light.turn_on
+    data:
+      brightness_pct: 100
+      effect: colorloop
+    target:
+      entity_id: light.tuin_grondspot_5_level_light_color_on_off
+  - delay:
+      hours: 0
+      minutes: 0
+      seconds: 2
+      milliseconds: 0
+  - service: light.turn_on
+    data:
+      brightness_pct: 100
+      effect: colorloop
+    target:
+      entity_id: light.tuin_grondspot_6_level_light_color_on_off
+  - delay:
+      hours: 0
+      minutes: 0
+      seconds: 2
+      milliseconds: 0
+  - service: light.turn_on
+    data:
+      brightness_pct: 100
+      effect: colorloop
+    target:
+      entity_id: light.tuin_grondspot_7_level_light_color_on_off
+  mode: single
+  icon: mdi:party-popper
+lights_party_mode_outdoor_2:
+  alias: Lights - Party Mode Outdoor 2
+  sequence:
+  - service: automation.turn_off
+    data: {}
+    target:
+      entity_id:
+      - automation.lights_overkapping_turn_on_off_aqara_sensor
+      - automation.lights_schuur_overkapping_on_off
+  - service: light.turn_on
+    data:
+      brightness_pct: 100
+    target:
+      entity_id:
+      - light.overkapping_lampen
+      - light.schuur_ledstrip_overkapping
+      - light.schuur_ledstrip_raam
+  - delay:
+      hours: 0
+      minutes: 0
+      seconds: 5
+      milliseconds: 0
+  - service: automation.turn_on
+    data: {}
+    target:
+      entity_id: automation.lights_party_mode_outdoor
+  - delay:
+      hours: 0
+      minutes: 0
+      seconds: 3
+      milliseconds: 0
+  - service: automation.turn_on
+    data: {}
+    target:
+      entity_id: automation.lights_party_mode_overkapping_1
+  - delay:
+      hours: 0
+      minutes: 0
+      seconds: 3
+      milliseconds: 0
+  - service: automation.turn_on
+    data: {}
+    target:
+      entity_id: automation.lights_party_mode_overkapping_2
+  - delay:
+      hours: 0
+      minutes: 0
+      seconds: 3
+      milliseconds: 0
+  - service: automation.turn_on
+    data: {}
+    target:
+      entity_id: automation.lights_party_mode_overkapping_3
+  - delay:
+      hours: 0
+      minutes: 0
+      seconds: 3
+      milliseconds: 0
+  - service: automation.turn_on
+    data: {}
+    target:
+      entity_id: automation.lights_party_mode_overkapping_4
+  mode: single
+  icon: mdi:party-popper
