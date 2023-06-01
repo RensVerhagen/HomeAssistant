@@ -907,3 +907,44 @@
         target:
           entity_id: light.schuur_ledstrip_overkapping
   mode: single
+- id: '1674317742902'
+  alias: Lights - Party Mode (Ledstrip overkapping)
+  description: Runs colorloop
+  use_blueprint:
+    path: hugalafutro/Color_Loop.yaml
+    input:
+      cl_light:
+        entity_id:
+        - light.schuur_ledstrip_overkapping
+- id: '1674324651198'
+  alias: Lights - Party Mode (Overkapping 1)
+  description: Runs colorloop
+  use_blueprint:
+    path: hugalafutro/Color_Loop.yaml
+    input:
+      cl_light:
+        entity_id: light.overkapping_1
+- id: '1674324684332'
+  alias: Lights - Party Mode (Overkapping 2)
+  description: Runs colorloop
+  use_blueprint:
+    path: hugalafutro/Color_Loop.yaml
+    input:
+      cl_light:
+        entity_id: light.overkapping_2
+- id: '1674324720881'
+  alias: Lights - Party Mode (Overkapping 3)
+  description: Runs colorloop
+  use_blueprint:
+    path: hugalafutro/Color_Loop.yaml
+    input:
+      cl_light:
+        entity_id: light.overkapping_3
+- id: '1674324756716'
+  alias: Lights - Party Mode (Overkapping 4)
+  description: Runs colorloop
+  use_blueprint:
+    path: hugalafutro/Color_Loop.yaml
+    input:
+      cl_light:
+        entity_id: light.overkapping_4
