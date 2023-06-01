@@ -41,9 +41,11 @@ http:
   server_port: !secret hassio_server_port
   use_x_forwarded_for: true
   trusted_proxies:
-    - !secret synology_ip
+    - !secret proxy_ip_range
+    - !secret router_ip_range
+    - !secret router_ip
   ip_ban_enabled: true
-  login_attempts_threshold: 20
+  login_attempts_threshold: 10
   # 13-2-2019 RV: Deactivated SSL, because of reverse proxy setup on Synology NAS
   #ssl_certificate: !secret ssl_certificate_location
   #ssl_key: !secret ssl_key_location
