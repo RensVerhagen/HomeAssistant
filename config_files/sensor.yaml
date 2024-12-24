@@ -11,14 +11,6 @@
       - 'date'
       - 'date_time'
 
-  # Afval Wijzer custom integration: https://github.com/xirixiz/homeassistant-afvalwijzer
-  - platform: afvalwijzer
-    provider: mijnafvalwijzer
-    postal_code: !secret home_postalcode
-    street_number: !secret home_housenumber
-    exclude_pickup_today: false  # (optional, default = true) to take or not to take Today into account in the next pickup.
-    default_label: Geen # (optional, default = Geen) label if no date found
-
   # Templates 
   # e.g. for rerieving last state
   # https://www.home-assistant.io/integrations/template/
