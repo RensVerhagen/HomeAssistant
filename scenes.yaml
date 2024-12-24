@@ -24,6 +24,10 @@
       brightness_pct: 70
       color_temp: 375
       state: 'on'
+    switch.sonoff_light_terras:
+      state: 'on'
+    light.buiten_lamp:
+      state: 'on'
   icon: mdi:weather-night
 - id: '1651782652837'
   name: Tuin - Avond (Buiten)
@@ -42,16 +46,32 @@
       brightness_pct: 100
       color_temp: 375
       state: 'on'
+    switch.sonoff_light_terras:
+      state: 'on'
+    light.buiten_lamp:
+      state: 'on'
   icon: mdi:weather-night
 - id: '1665342835214'
   name: Tuin - Avond (Slapen)
   entities:
     light.schuur_buiten:
-      state: 'off'
+      color_mode: brightness
+      brightness_pct: 1
+      state: 'on'
     light.tuin_grondspots_links:
-      state: 'off'
+      color_mode: color_temp
+      brightness_pct: 1
+      color_temp: 375
+      state: 'on'
     light.tuin_grondspots_rechts:
+      color_mode: color_temp
+      brightness_pct: 1
+      color_temp: 375
+      state: 'on'
+    switch.sonoff_light_terras:
       state: 'off'
+    light.buiten_lamp:
+      state: 'on'
     light.voordeur_1:
       state: 'off'
     light.voordeur_2:
@@ -60,3 +80,22 @@
       color_temp: 375
       state: 'on'
   icon: mdi:weather-night
+- id: '1704786096579'
+  name: Tuin - Overdag
+  entities:
+    light.schuur_buiten:
+      state: 'off'
+    light.tuin_grondspots_links:
+      state: 'off'
+    light.tuin_grondspots_rechts:
+      state: 'off'
+    switch.sonoff_light_terras:
+      state: 'off'
+    light.buiten_lamp:
+      state: 'off'
+    light.voordeur_1:
+      state: 'off'
+    light.voordeur_2:
+      state: 'off'
+  icon: mdi:weather-sunset-up
+  metadata: {}
