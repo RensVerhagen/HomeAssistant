@@ -3,15 +3,15 @@
   - name: all_devices
     platform: group
     services:
-      - service: mobile_app_pixel_6
-      - service: mobile_app_oneplus8pro
+      - service: mobile_app_galaxy_s24
+      - service: mobile_app_samsung_a34
 
   - name: rens
     platform: group
     services:
-      - service: mobile_app_pixel_6
+      - service: mobile_app_galaxy_s24
 
   - name: nathasja
     platform: group
     services:
-      - service: mobile_app_oneplus8pro
+      - service: mobile_app_samsung_a34
