@@ -15,3 +15,11 @@
     platform: group
     services:
       - service: mobile_app_samsung_a34
+
+  - name: ha_thuis_group
+    platform: telegram
+    chat_id: -4065637046
+
+  - name: rens_telegram
+    platform: telegram
+    chat_id: 6174252690
