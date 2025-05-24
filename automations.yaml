@@ -226,23 +226,46 @@
     entity_id: light.eetkamer
   mode: single
 - id: '1608601873724'
-  alias: Kerstboom aanzetten
+  alias: Kerstboom aan / uit
   description: ''
-  trigger:
-  - platform: state
-    entity_id: binary_sensor.woonkamer_presence
-    from: 'off'
-    to: 'on'
-  condition:
-  - condition: device
-    type: is_off
-    device_id: abc82ed7f7764c4685f1998658cb6b08
-    entity_id: switch.smart_switch_1
-    domain: switch
-  action:
-  - service: switch.turn_on
-    data: {}
-    entity_id: switch.smart_switch_1
+  triggers:
+  - entity_id:
+    - input_boolean.sleeping
+    trigger: state
+  - trigger: state
+    entity_id:
+    - input_boolean.home_presence
+  conditions: []
+  actions:
+  - choose:
+    - conditions:
+      - condition: state
+        entity_id: input_boolean.sleeping
+        state: 'off'
+      - condition: state
+        entity_id: input_boolean.home_presence
+        state: 'on'
+      sequence:
+      - action: switch.turn_on
+        metadata: {}
+        data: {}
+        target:
+          entity_id: switch.smart_switch_01
+    - conditions:
+      - condition: or
+        conditions:
+        - condition: state
+          entity_id: input_boolean.sleeping
+          state: 'on'
+        - condition: state
+          entity_id: input_boolean.home_presence
+          state: 'off'
+      sequence:
+      - action: switch.turn_off
+        metadata: {}
+        data: {}
+        target:
+          entity_id: switch.smart_switch_01
   mode: single
 - id: '1608745478499'
   alias: Lights - Keuken Turn on
@@ -271,13 +294,13 @@
   description: Turns off lights in Keuken when no presence is detected
   trigger:
   - platform: state
-    entity_id: binary_sensor.keuken_presence
+    entity_id:
+    - binary_sensor.keuken_presence
     to: 'off'
     for:
-      hours: 1
-      minutes: 0
+      hours: 0
+      minutes: 15
       seconds: 0
-      milliseconds: 0
   condition:
   - condition: state
     entity_id: light.keuken
@@ -348,23 +371,6 @@
     domain: vacuum
     entity_id: vacuum.xiaomi_vacuum_cleaner
     type: clean
-  mode: single
-- id: '1627817145776'
-  alias: Cleanup - Set Last Cleanup Time
-  description: Set last cleanup time if cleaned more than 30 minutes.
-  trigger:
-  - platform: state
-    entity_id: vacuum.xiaomi_vacuum_cleaner
-    attribute: status
-    for: 00:30:00
-    to: Cleaning
-  condition: []
-  action:
-  - service: input_datetime.set_datetime
-    data:
-      datetime: '{{ now().timestamp() }}'
-    target:
-      entity_id: input_datetime.last_cleanup
   mode: single
 - id: '1641158665593'
   alias: Car - Unlock Charging Port
@@ -445,87 +451,6 @@
         device_id: b080a8910a40998b3b6401335df8fc6e
         entity_id: switch.doorbell_chime_active
         domain: switch
-    default: []
-  mode: single
-- id: '1651602620853'
-  alias: Mower - Set Mower state based on Toggle
-  description: When helper toggle is set, make sure that the mower is turned on/off
-  trigger:
-  - platform: state
-    entity_id: input_boolean.mower
-    for:
-      hours: 0
-      minutes: 0
-      seconds: 5
-  condition: []
-  action:
-  - choose:
-    - conditions:
-      - condition: state
-        entity_id: input_boolean.mower
-        state: 'on'
-      - condition: state
-        entity_id: sensor.indego_128604519_mower_state
-        state: Docked
-      sequence:
-      - service: indego.command
-        data:
-          command: mow
-    - conditions:
-      - condition: state
-        entity_id: input_boolean.mower
-        state: 'off'
-      - condition: state
-        entity_id: sensor.indego_128604519_mower_state
-        state: Mowing
-      sequence:
-      - service: indego.command
-        data:
-          command: returnToDock
-    default: []
-  mode: single
-- id: '1651605735910'
-  alias: Mower - Set Toggle based on Mower state
-  description: When mower state changes, make sure that the toggle is is turned on/off
-    as well
-  trigger:
-  - platform: state
-    entity_id:
-    - sensor.indego_128604519_mower_state
-    from: Mowing
-    to: Docked
-  - platform: state
-    entity_id:
-    - sensor.indego_128604519_mower_state
-    to: Mowing
-    from: Docked
-  condition: []
-  action:
-  - choose:
-    - conditions:
-      - condition: state
-        entity_id: input_boolean.mower
-        state: 'on'
-      - condition: state
-        entity_id: sensor.indego_128604519_mower_state
-        state: Docked
-      sequence:
-      - service: input_boolean.turn_off
-        data: {}
-        target:
-          entity_id: input_boolean.mower
-    - conditions:
-      - condition: state
-        entity_id: input_boolean.mower
-        state: 'off'
-      - condition: state
-        entity_id: sensor.indego_128604519_mower_state
-        state: Mowing
-      sequence:
-      - service: input_boolean.turn_on
-        data: {}
-        target:
-          entity_id: input_boolean.mower
     default: []
   mode: single
 - id: '1659563358634'
@@ -735,13 +660,22 @@
       - condition: state
         entity_id: binary_sensor.overkapping_movement
         state: 'off'
-      - condition: state
-        entity_id: binary_sensor.overkapping_deur
-        state: 'off'
-        for:
-          hours: 0
-          minutes: 1
-          seconds: 0
+      - condition: or
+        conditions:
+        - condition: state
+          entity_id: binary_sensor.overkapping_deur
+          state: 'off'
+          for:
+            hours: 0
+            minutes: 1
+            seconds: 0
+        - condition: state
+          entity_id: binary_sensor.overkapping_deur
+          state: unavailable
+          for:
+            hours: 0
+            minutes: 0
+            seconds: 0
       sequence:
       - service: light.turn_off
         data: {}
@@ -951,19 +885,29 @@
   alias: Sprinklers - Calendar Automation
   description: Enables/Disables sprinklers on set times, except when it's raining
   trigger:
+  - platform: calendar
+    event: start
+    offset: 0:0:0
+    entity_id: calendar.garden_schema
+  - platform: calendar
+    event: end
+    offset: 0:0:0
+    entity_id: calendar.garden_schema
   - platform: state
     entity_id:
-    - calendar.garden_schema
+    - vacuum.mower
+    from: docked
+  condition:
+  - condition: template
+    value_template: '{{ ''Gras Sproeien'' in trigger.calendar_event.summary }}'
   action:
   - choose:
     - conditions:
+      - condition: template
+        value_template: '{{ trigger.event == ''start'' }}'
       - condition: state
-        entity_id: calendar.garden_schema
-        attribute: message
-        state: Gras Sproeien
-      - condition: state
-        entity_id: calendar.garden_schema
-        state: 'on'
+        entity_id: sensor.mower_state
+        state: Docked
       - condition: not
         conditions:
         - condition: or
@@ -979,17 +923,487 @@
         data: {}
         target:
           entity_id: switch.sonoff_sprinklers
+      - service: notify.rens_telegram
+        data:
+          message: Sproeiers staan aan
     - conditions:
+      - condition: or
+        conditions:
+        - condition: template
+          value_template: '{{ trigger.event == ''end'' }}'
+        - condition: not
+          conditions:
+          - condition: state
+            entity_id: sensor.mower_state
+            state: Docked
       - condition: state
-        entity_id: calendar.garden_schema
-        attribute: message
-        state: Gras Sproeien
-      - condition: state
-        entity_id: calendar.garden_schema
-        state: 'off'
+        entity_id: switch.sonoff_sprinklers
+        state: 'on'
       sequence:
       - service: switch.turn_off
         data: {}
         target:
           entity_id: switch.sonoff_sprinklers
+      - service: notify.rens_telegram
+        metadata: {}
+        data:
+          message: Sproeiers staan uit
+  mode: single
+- id: '1689110580445'
+  alias: Lights - Eetkamer (on/off)
+  description: Turns on/off lights in eetkamer automatically based on presence and
+    doors.
+  trigger:
+  - platform: state
+    entity_id:
+    - binary_sensor.eetkamer_presence2
+  - platform: state
+    entity_id:
+    - binary_sensor.achterdeur
+    to: 'on'
+  condition: []
+  action:
+  - choose:
+    - conditions:
+      - condition: numeric_state
+        entity_id: sensor.everything_presence_one_fa2974_illuminance
+        below: 50
+      - condition: or
+        conditions:
+        - condition: state
+          entity_id: binary_sensor.eetkamer_presence2
+          state: 'on'
+        - condition: state
+          entity_id: binary_sensor.achterdeur
+          state: 'on'
+      - condition: state
+        entity_id: light.eetkamer
+        state: 'off'
+      sequence:
+      - service: light.turn_on
+        data: {}
+        target:
+          entity_id: light.eetkamer
+    - conditions:
+      - condition: state
+        entity_id: binary_sensor.eetkamer_presence2
+        state: 'off'
+        for:
+          hours: 0
+          minutes: 5
+          seconds: 0
+      sequence:
+      - service: light.turn_off
+        data: {}
+        target:
+          entity_id: light.eetkamer
+  mode: single
+- id: '1691532303239'
+  alias: Lights - Keuken (on/off)
+  description: Turns on lights in keuken when motion is detected and turn off automatically
+  trigger:
+  - platform: state
+    entity_id:
+    - binary_sensor.keuken_presence
+  - platform: state
+    entity_id:
+    - binary_sensor.keuken_movement
+  condition: []
+  action:
+  - choose:
+    - conditions:
+      - condition: numeric_state
+        entity_id: sensor.keuken_lightlevel
+        below: 50
+      - condition: state
+        entity_id: binary_sensor.keuken_movement
+        state: 'on'
+      sequence:
+      - service: light.turn_on
+        data:
+          brightness_pct: 80
+        target:
+          entity_id: light.keuken
+    - conditions:
+      - condition: state
+        entity_id: binary_sensor.keuken_presence
+        state: 'off'
+        for:
+          hours: 0
+          minutes: 5
+          seconds: 0
+      - condition: state
+        entity_id: light.keuken
+        state: 'on'
+      sequence:
+      - service: light.turn_on
+        data:
+          brightness_pct: 1
+          transition: 3
+        target:
+          entity_id: light.keuken
+    - conditions:
+      - condition: state
+        entity_id: binary_sensor.keuken_presence
+        state: 'off'
+        for:
+          hours: 0
+          minutes: 10
+          seconds: 0
+      - condition: state
+        entity_id: light.keuken
+        state: 'on'
+      sequence:
+      - service: light.turn_off
+        data: {}
+        target:
+          entity_id: light.keuken
+  mode: single
+- id: '1695850324992'
+  alias: Lights - Keuken (blueprint)
+  description: Turns on/off keuken lights, based on threshold helpers
+  use_blueprint:
+    path: freakshock88/motion_illuminance_activated_entity.yaml
+    input:
+      motion_sensor: binary_sensor.keuken_presence
+      target_entity: light.keuken
+      illuminance_sensor: sensor.keuken_lightlevel
+      illuminance_cutoff: input_number.threshold_light_sensor
+      blocker_entity: input_boolean.sleeping
+      no_motion_wait: input_number.threshold_light_off_eetkamer
+      turn_off_blocker_entity: input_boolean.guest_home
+- id: '1695853546428'
+  alias: Doorbell - Send notification (Telegram PoC)
+  description: Send notification with camera image when doorbell is pressed to telegram
+    group
+  trigger:
+  - type: turned_on
+    platform: device
+    device_id: b080a8910a40998b3b6401335df8fc6e
+    entity_id: binary_sensor.doorbell
+    domain: binary_sensor
+  condition: []
+  action:
+  - service: camera.turn_on
+    metadata: {}
+    data: {}
+    target:
+      entity_id: camera.voordeur
+  - delay:
+      hours: 0
+      minutes: 0
+      seconds: 3
+      milliseconds: 0
+  - service: camera.snapshot
+    metadata: {}
+    data:
+      filename: /media/cameras/voordeur_snapshot.jpg
+    target:
+      entity_id: camera.voordeur
+  - delay:
+      hours: 0
+      minutes: 0
+      seconds: 2
+      milliseconds: 0
+  - service: notify.ha_thuis_group
+    data:
+      data:
+        photo:
+        - file: /media/cameras/voordeur_snapshot.jpg
+          caption: Voordeur
+      message: Notification
+  - delay:
+      hours: 0
+      minutes: 0
+      seconds: 2
+      milliseconds: 0
+  mode: single
+- id: '1697368810031'
+  alias: Lights - Eetkamer (blueprint)
+  description: Turns on/off eetkamer lights, based on threshold helpers
+  use_blueprint:
+    path: freakshock88/motion_illuminance_activated_entity.yaml
+    input:
+      motion_sensor: binary_sensor.eetkamer_presence2
+      target_entity: light.eetkamer
+      illuminance_sensor: sensor.eetkamer_lightlevel
+      illuminance_cutoff: input_number.threshold_light_sensor
+      blocker_entity: input_boolean.sleeping
+      no_motion_wait: input_number.threshold_light_off_eetkamer
+      turn_off_blocker_entity: input_boolean.guest_home
+- id: '1697369922445'
+  alias: Lights - Woonkamer (blueprint)
+  description: Turns on/off woonkamer lights, based on threshold helpers
+  use_blueprint:
+    path: freakshock88/motion_illuminance_activated_entity.yaml
+    input:
+      motion_sensor: binary_sensor.woonkamer_presence
+      target_entity: light.woonkamer
+      illuminance_sensor: sensor.woonkamer_lightlevel
+      illuminance_cutoff: input_number.threshold_light_sensor
+      blocker_entity: input_boolean.sleeping
+      no_motion_wait: input_number.threshold_light_off_eetkamer
+      turn_off_blocker_entity: media_player.kpn_tv_woonkamer
+      sunstate_condition: Always
+- id: '1702338245080'
+  alias: Lights - Outdoor Automation
+  description: Turn on/off lights based on sunset/sunrise in combination with sleep
+    toggle.
+  triggers:
+  - event: sunset
+    offset: 0
+    trigger: sun
+  - event: sunset
+    offset: 00:01:00
+    trigger: sun
+  - event: sunrise
+    offset: 0
+    trigger: sun
+  - event: sunrise
+    offset: 00:01:00
+    trigger: sun
+  - entity_id:
+    - input_boolean.sleeping
+    trigger: state
+  - event: sunset
+    offset: 00:05:00
+    trigger: sun
+  - event: sunrise
+    offset: 00:05:00
+    trigger: sun
+  conditions: []
+  actions:
+  - choose:
+    - conditions:
+      - condition: sun
+        before: sunrise
+        after: sunset
+      - condition: state
+        entity_id: input_boolean.sleeping
+        state: 'off'
+      sequence:
+      - data:
+          transition: 10
+        target:
+          entity_id: scene.tuin_avond_normaal
+        action: scene.turn_on
+    - conditions:
+      - condition: sun
+        before: sunrise
+        after: sunset
+      - condition: state
+        entity_id: input_boolean.sleeping
+        state: 'on'
+      sequence:
+      - data:
+          transition: 10
+        target:
+          entity_id:
+          - scene.tuin_avond_slapen
+        action: scene.turn_on
+    - conditions:
+      - condition: sun
+        before: sunset
+        after: sunrise
+      sequence:
+      - data:
+          transition: 10
+        target:
+          entity_id:
+          - scene.tuin_overdag
+        action: scene.turn_on
+  mode: single
+- id: '1719475856024'
+  alias: Start Bedtime on NFC scan
+  description: Turns on the 'Sleep' toggle
+  trigger:
+  - platform: tag
+    tag_id: 8fddbf42-2aac-4857-ac76-e2d3a092cab4
+  condition: []
+  action:
+  - service: input_boolean.turn_on
+    metadata: {}
+    data: {}
+    target:
+      entity_id: input_boolean.sleeping
+  mode: single
+- id: '1724709018140'
+  alias: Waste Reminder Notification
+  description: At 20:00 on the day before waste needs to be collected, this automation
+    sends a notification each hour until it's marked as completed.
+  triggers:
+  - hours: /1
+    trigger: time_pattern
+  conditions:
+  - condition: state
+    entity_id: binary_sensor.waste_collect_boolean_template
+    state: 'on'
+  - condition: or
+    conditions:
+    - condition: state
+      entity_id: person.rens
+      state: home
+    - condition: state
+      entity_id: person.nathasja
+      state: home
+  actions:
+  - if:
+    - condition: state
+      entity_id: person.rens
+      state: home
+    then:
+    - action: notify.rens
+      data:
+        title: Afval buiten zetten!
+        message: '{{ states(''sensor.waste_type_notication'') }}'
+        data:
+          tag: waste-reminder
+          actions: "{% set actions = [] %} {% if 'paper' in states('sensor.waste_types')
+            %}\n  {% set actions = actions + [{\"action\": \"oud_papier_is_outside\",
+            \"title\": \"Papier is buitengezet\"}] %}\n{% endif %} {% if 'pd' in states('sensor.waste_types')
+            %}\n  {% set actions = actions + [{\"action\": \"plastic_is_outside\",
+            \"title\": \"Plastic buiten gezet\"}] %}\n{% endif %} {% if 'gft' in states('sensor.waste_types')
+            %}\n  {% set actions = actions + [{\"action\": \"groene_kliko_is_outside\",
+            \"title\": \"Groene kliko buiten gezet\"}] %}\n{% endif %} {% if 'rest'
+            in states('sensor.waste_types') %}\n  {% set actions = actions + [{\"action\":
+            \"grijze_kliko_is_outside\", \"title\": \"Grijze kliko buiten gezet\"}]
+            %}\n{% endif %} {{ actions }}\n"
+  - if:
+    - condition: state
+      entity_id: person.nathasja
+      state: home
+    then:
+    - action: notify.nathasja
+      data:
+        title: Afval buiten zetten!
+        message: '{{ states(''sensor.waste_type_notication'') }}'
+        data:
+          tag: waste-reminder
+          actions: "{% set actions = [] %} {% if 'paper' in states('sensor.waste_types')
+            %}\n  {% set actions = actions + [{\"action\": \"oud_papier_is_outside\",
+            \"title\": \"Papier is buitengezet\"}] %}\n{% endif %} {% if 'pd' in states('sensor.waste_types')
+            %}\n  {% set actions = actions + [{\"action\": \"plastic_is_outside\",
+            \"title\": \"Plastic buiten gezet\"}] %}\n{% endif %} {% if 'gft' in states('sensor.waste_types')
+            %}\n  {% set actions = actions + [{\"action\": \"groene_kliko_is_outside\",
+            \"title\": \"Groene kliko buiten gezet\"}] %}\n{% endif %} {% if 'rest'
+            in states('sensor.waste_types') %}\n  {% set actions = actions + [{\"action\":
+            \"grijze_kliko_is_outside\", \"title\": \"Grijze kliko buiten gezet\"}]
+            %}\n{% endif %} {{ actions }}\n"
+- id: '1724709485739'
+  alias: Mark Waste as Taken Out from Notification Action
+  description: ''
+  triggers:
+  - event_type: mobile_app_notification_action
+    event_data:
+      action: grijze_kliko_is_outside
+    trigger: event
+  - event_type: mobile_app_notification_action
+    event_data:
+      action: groene_kliko_is_outside
+    trigger: event
+  - event_type: mobile_app_notification_action
+    event_data:
+      action: plastic_is_outside
+    trigger: event
+  - event_type: mobile_app_notification_action
+    event_data:
+      action: oud_papier_is_outside
+    trigger: event
+  actions:
+  - choose:
+    - conditions:
+      - condition: template
+        value_template: '{{ trigger.event.data.action == "grijze_kliko_is_outside"
+          }}'
+      sequence:
+      - action: input_boolean.turn_on
+        target:
+          entity_id: input_boolean.grijze_kliko_buiten_gezet
+        data: {}
+    - conditions:
+      - condition: template
+        value_template: '{{ trigger.event.data.action == "groene_kliko_is_outside"
+          }}'
+      sequence:
+      - action: input_boolean.turn_on
+        target:
+          entity_id: input_boolean.groene_kliko_buiten_gezet
+        data: {}
+    - conditions:
+      - condition: template
+        value_template: '{{ trigger.event.data.action == "plastic_is_outside" }}'
+      sequence:
+      - action: input_boolean.turn_on
+        target:
+          entity_id: input_boolean.plastic_buiten_gezet
+        data: {}
+    - conditions:
+      - condition: template
+        value_template: '{{ trigger.event.data.action == "oud_papier_is_outside" }}'
+      sequence:
+      - action: input_boolean.turn_on
+        target:
+          entity_id: input_boolean.oud_papier_buiten_gezet
+        data: {}
+- id: '1729436817554'
+  alias: Waste reset thrash is outside booleans after 48 hours
+  description: Makes sure that the {{wastetype}}_is_outside boolean are turned off
+    again after 48 or 72 hours so it can be used for new waste collection notifications.
+  triggers:
+  - at: 05:00:00
+    trigger: time
+  conditions: []
+  actions:
+  - if:
+    - condition: state
+      entity_id: input_boolean.plastic_buiten_gezet
+      state: 'on'
+      for:
+        hours: 48
+        minutes: 0
+        seconds: 0
+    then:
+    - target:
+        entity_id: input_boolean.plastic_buiten_gezet
+      action: input_boolean.turn_off
+      data: {}
+  - if:
+    - condition: state
+      entity_id: input_boolean.oud_papier_buiten_gezet
+      state: 'on'
+      for:
+        hours: 48
+        minutes: 0
+        seconds: 0
+    then:
+    - target:
+        entity_id: input_boolean.oud_papier_buiten_gezet
+      action: input_boolean.turn_off
+      data: {}
+  - if:
+    - condition: state
+      entity_id: input_boolean.grijze_kliko_buiten_gezet
+      state: 'on'
+      for:
+        hours: 72
+        minutes: 0
+        seconds: 0
+    then:
+    - target:
+        entity_id: input_boolean.grijze_kliko_buiten_gezet
+      action: input_boolean.turn_off
+      data: {}
+  - if:
+    - condition: state
+      entity_id: input_boolean.groene_kliko_buiten_gezet
+      state: 'on'
+      for:
+        hours: 72
+        minutes: 0
+        seconds: 0
+    then:
+    - target:
+        entity_id: input_boolean.groene_kliko_buiten_gezet
+      action: input_boolean.turn_off
+      data: {}
   mode: single
