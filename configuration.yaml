@@ -10,6 +10,9 @@ homeassistant:
      - 127.0.0.1
      - !secret router_ip_range
 
+  allowlist_external_dirs:
+    - "/media/cameras"
+
 ### Include dependent configuration files ###
 automation: !include automations.yaml
 automation backend: !include config_files/backend_automations.yaml
@@ -39,40 +42,24 @@ logger:
 ### Http access setup ###
 http:
   server_port: !secret hassio_server_port
-  use_x_forwarded_for: true
-  trusted_proxies:
-    - !secret proxy_ip_range
-    - !secret router_ip_range
-    - !secret router_ip
   ip_ban_enabled: true
-  login_attempts_threshold: 10
-  # 13-2-2019 RV: Deactivated SSL, because of reverse proxy setup on Synology NAS
-  #ssl_certificate: !secret ssl_certificate_location
-  #ssl_key: !secret ssl_key_location
+  login_attempts_threshold: 15
 
 ### Enables default configuration options ### https://www.home-assistant.io/integrations/default_config/ 
 default_config:
 
 # Discover some devices automatically
-discovery:
+## discovery:
 
 # Allows you to issue voice commands from the frontend in enabled browsers
 conversation:
-
-# Zones
-zone:
-  name: Work Rens
-  latitude: !secret work_rens_latitude
-  longitude: !secret work_rens_longitude
-  radius: 180
-  icon: mdi:worker
 
 # Text to speech
 tts:
   - platform: google_translate
     service_name: google_say
     language: 'nl'
-    base_url: !secret hassio_url
+    ## base_url: !secret hassio_url
 
 # Stream / FFmpeg, needed for IP Camera access
 # stream: // 4-12-2020 RV: Using ffmpeg instead of stream platform for webcam
