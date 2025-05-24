@@ -65,6 +65,10 @@ tts:
 # stream: // 4-12-2020 RV: Using ffmpeg instead of stream platform for webcam
 ffmpeg:
 
+shell_command:
+   create_jukebox_token: python3 /config/python_scripts/manage_token.py 
+   delete_jukebox_token: python3 /config/python_scripts/manage_token.py delete //revokes they key and deletes the key file from config/www
+
 ### Hass.io Database ###
 # Recorder, controlling where the Logs / Activites are stored
 recorder:
