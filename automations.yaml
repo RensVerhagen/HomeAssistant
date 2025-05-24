@@ -1407,3 +1407,113 @@
       action: input_boolean.turn_off
       data: {}
   mode: single
+- id: '1748077234243'
+  alias: Jukebox - Set Default Playlist when Jukebox Queue is zero
+  description: Once the guests queued songs are all played, play the default party
+    playlist so the music doesnt stop
+  triggers:
+  - trigger: state
+    entity_id:
+    - input_number.jukebox_queue_length
+    to: '1.0'
+  conditions: []
+  actions:
+  - action: input_boolean.turn_off
+    metadata: {}
+    data: {}
+    target:
+      entity_id: input_boolean.jukebox_queue_mode
+  - action: music_assistant.play_media
+    data:
+      enqueue: add
+      media_id: https://open.spotify.com/playlist/1RMLPmx9CpfUa5KYBr5Zjx?si=YrXZ1opLQpu4SMj6w-Mbwg
+      media_type: playlist
+    target:
+      entity_id: media_player.speakers_schuur_2
+  mode: single
+- id: '1748077578876'
+  alias: Jukebox - Switch Jukebox Access on/off
+  description: Controls access to the jukebox by enabling the app and provisioning
+    an access token or disabling the app and revoking any active token
+  triggers:
+  - trigger: state
+    entity_id:
+    - input_boolean.jukebox_song_request_access
+    from: 'off'
+    to: 'on'
+  - trigger: state
+    entity_id:
+    - input_boolean.jukebox_song_request_access
+    from: 'on'
+    to: 'off'
+  conditions: []
+  actions:
+  - if:
+    - condition: state
+      entity_id: input_boolean.jukebox_song_request_access
+      state: 'on'
+    then:
+    - action: shell_command.create_jukebox_token
+      metadata: {}
+      data: {}
+    - action: input_boolean.turn_off
+      metadata: {}
+      data: {}
+      target:
+        entity_id: input_boolean.jukebox_queue_mode
+    else:
+    - action: shell_command.delete_jukebox_token
+      metadata: {}
+      data: {}
+  mode: single
+- id: '1748087244079'
+  alias: Jukebox - Notify of Queued Song
+  description: Tells home assistant that someone has requested a song and to switch
+    the queueing mode for guests for further requests
+  triggers:
+  - trigger: webhook
+    allowed_methods:
+    - POST
+    - GET
+    local_only: true
+    webhook_id: jukebox-notify-of-queued-song-J57yI9fxbxbmzqt7qynml0qJ
+  conditions: []
+  actions:
+  - action: input_boolean.turn_on
+    metadata: {}
+    data: {}
+    target:
+      entity_id:
+      - input_boolean.jukebox_queue_mode
+- id: '1748087711001'
+  alias: Jukebox - Track Queue Size
+  description: Keeps track of the media player queue length and updates the Jukebox
+    Queue Length helper
+  triggers:
+  - trigger: state
+    entity_id:
+    - media_player.speakers_schuur_2
+    attribute: media_position_updated_at
+  conditions: []
+  actions:
+  - action: music_assistant.get_queue
+    metadata: {}
+    data: {}
+    target:
+      entity_id: media_player.speakers_schuur_2
+    response_variable: jukeboxqueuedetail
+  - variables:
+      speaker_data: '{{ jukeboxqueuedetail[''media_player.speakers_schuur_2''] }}'
+  - variables:
+      items_count: '{% set matches = speaker_data | regex_findall("''items'': (\d+)")
+        %} {{ matches[0] if matches else 0 }}'
+      current_index: '{% set matches = speaker_data | regex_findall("''current_index'':
+        (\d+)") %} {{ matches[0] if matches else 0 }}'
+      remaining: '{{ (items_count | int) - (current_index | int) }}'
+  - action: input_number.set_value
+    target:
+      entity_id: input_number.jukebox_queue_length
+    data:
+      value: '{{ remaining | float }}'
+  mode: queued
+  max: 10

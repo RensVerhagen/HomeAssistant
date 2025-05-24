@@ -9,6 +9,7 @@
 !integrations
 
 # Do not ignore the following files
+!*.html
 !*.yaml
 !*.md
 !.gitignore
@@ -28,11 +29,12 @@ letsencrypt
 node-red
 tts
 
-# Ignore the the following files with sensetive data
+# Ignore the the following files with sensitive data
 ip_bans.yaml
 secrets.yaml
 known_devices.yaml
 GoogleAssistant-key.json
+go2rtc.yaml
 
 # Ignore the following files as these get updated by Home Assistant
 home-assistant.log
