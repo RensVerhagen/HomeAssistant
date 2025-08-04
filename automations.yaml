@@ -884,23 +884,23 @@
 - id: '1682939415231'
   alias: Sprinklers - Calendar Automation
   description: Enables/Disables sprinklers on set times, except when it's raining
-  trigger:
-  - platform: calendar
-    event: start
+  triggers:
+  - event: start
     offset: 0:0:0
     entity_id: calendar.garden_schema
-  - platform: calendar
-    event: end
+    trigger: calendar
+  - event: end
     offset: 0:0:0
     entity_id: calendar.garden_schema
-  - platform: state
-    entity_id:
-    - vacuum.mower
-    from: docked
-  condition:
+    trigger: calendar
+  - entity_id:
+    - sensor.mower_state
+    from: Docked
+    trigger: state
+  conditions:
   - condition: template
     value_template: '{{ ''Gras Sproeien'' in trigger.calendar_event.summary }}'
-  action:
+  actions:
   - choose:
     - conditions:
       - condition: template
@@ -919,13 +919,13 @@
             entity_id: weather.station_home
             state: pouring
       sequence:
-      - service: switch.turn_on
-        data: {}
+      - data: {}
         target:
           entity_id: switch.sonoff_sprinklers
-      - service: notify.rens_telegram
-        data:
+        action: switch.turn_on
+      - data:
           message: Sproeiers staan aan
+        action: notify.rens_telegram
     - conditions:
       - condition: or
         conditions:
@@ -940,14 +940,14 @@
         entity_id: switch.sonoff_sprinklers
         state: 'on'
       sequence:
-      - service: switch.turn_off
-        data: {}
+      - data: {}
         target:
           entity_id: switch.sonoff_sprinklers
-      - service: notify.rens_telegram
-        metadata: {}
+        action: switch.turn_off
+      - metadata: {}
         data:
           message: Sproeiers staan uit
+        action: notify.rens_telegram
   mode: single
 - id: '1689110580445'
   alias: Lights - Eetkamer (on/off)
