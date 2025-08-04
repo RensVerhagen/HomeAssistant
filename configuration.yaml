@@ -29,7 +29,6 @@ notify: !include integrations/notify.yaml
 alert: !include integrations/alert.yaml
 utility_meter: !include integrations/utility_meter.yaml
 sonoff: !include integrations/sonoff.yaml
-telegram_bot: !include integrations/telegram.yaml
 
 ### Set log level ###
 ### Available log levels: critical, fatal, error, warning, warn, info, debug, notset
