@@ -1517,3 +1517,48 @@
       value: '{{ remaining | float }}'
   mode: queued
   max: 10
+- id: '1754338031813'
+  alias: Mower - Send notification (Telegram)
+  description: Sends a notification including image that mower will start in 15 minutes
+  triggers:
+  - trigger: time
+    at:
+      entity_id: sensor.mower_next_mow
+      offset: -00:15:15
+  conditions: []
+  actions:
+  - action: camera.turn_on
+    metadata: {}
+    data: {}
+    target:
+      entity_id: camera.achtertuin
+  - action: eufy_security.start_rtsp_livestream
+    metadata: {}
+    data: {}
+    target:
+      entity_id: camera.achtertuin
+  - delay:
+      hours: 0
+      minutes: 0
+      seconds: 5
+      milliseconds: 0
+  - action: camera.snapshot
+    metadata: {}
+    data:
+      filename: /media/cameras/mower_snapshot.jpg
+    target:
+      entity_id: camera.achtertuin
+  - delay:
+      hours: 0
+      minutes: 0
+      seconds: 5
+      milliseconds: 0
+  - action: notify.rens_telegram
+    metadata: {}
+    data:
+      message: Notification
+      data:
+        photo:
+        - file: /media/cameras/mower_snapshot.jpg
+          caption: De grasmaaier start over 15 minuten
+  mode: single
