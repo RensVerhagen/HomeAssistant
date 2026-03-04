@@ -606,60 +606,81 @@
   alias: Lights - Overkapping (on/off)
   description: Turns on lights in Overkapping when motion is detected or door is opened
     and turn off automatically
-  trigger:
-  - platform: state
-    entity_id:
-    - binary_sensor.overkapping_presence
-  - platform: state
-    entity_id:
-    - binary_sensor.overkapping_movement
-  - platform: state
-    entity_id:
+  triggers:
+  - entity_id:
+    - binary_sensor.overkapping_presence_1
+    - binary_sensor.overkapping_presence_2
+    trigger: state
+  - entity_id:
+    - binary_sensor.overkapping_movement_1
+    - binary_sensor.overkapping_movement_2
+    trigger: state
+  - entity_id:
     - binary_sensor.overkapping_deur
-  condition: []
-  action:
+    trigger: state
+  conditions: []
+  actions:
   - choose:
     - conditions:
       - condition: or
         conditions:
         - condition: state
-          entity_id: binary_sensor.overkapping_movement
-          state: 'on'
+          entity_id: binary_sensor.overkapping_movement_1
+          state:
+          - 'on'
+        - condition: state
+          entity_id: binary_sensor.overkapping_movement_2
+          state:
+          - 'on'
         - condition: state
           entity_id: binary_sensor.overkapping_deur
           state: 'on'
       sequence:
-      - service: light.turn_on
-        data:
+      - data:
           brightness_pct: 100
           color_temp: 365
         target:
           entity_id: light.overkapping_lampen
+        action: light.turn_on
     - conditions:
+      - condition: or
+        conditions:
+        - condition: state
+          entity_id: binary_sensor.overkapping_presence_1
+          state:
+          - 'on'
+        - condition: state
+          entity_id: binary_sensor.overkapping_presence_2
+          state:
+          - 'on'
       - condition: state
-        entity_id: binary_sensor.overkapping_presence
-        state: 'on'
+        entity_id: binary_sensor.overkapping_movement_1
+        state:
+        - 'off'
       - condition: state
-        entity_id: binary_sensor.overkapping_movement
-        state: 'off'
+        entity_id: binary_sensor.overkapping_movement_2
+        state:
+        - 'off'
       - condition: state
         entity_id: light.overkapping_lampen
         state: 'on'
       sequence:
-      - service: light.turn_on
-        data:
+      - data:
           brightness_pct: 1
-          transition: 3
+          transition: 5
           color_temp: 365
         target:
           entity_id: light.overkapping_lampen
+        action: light.turn_on
     - conditions:
       - condition: state
-        entity_id: binary_sensor.overkapping_presence
-        state: 'off'
+        entity_id: binary_sensor.overkapping_presence_1
+        state:
+        - 'off'
       - condition: state
-        entity_id: binary_sensor.overkapping_movement
-        state: 'off'
+        entity_id: binary_sensor.overkapping_presence_2
+        state:
+        - 'off'
       - condition: or
         conditions:
         - condition: state
@@ -677,10 +698,10 @@
             minutes: 0
             seconds: 0
       sequence:
-      - service: light.turn_off
-        data: {}
+      - data: {}
         target:
           entity_id: light.overkapping_lampen
+        action: light.turn_off
   mode: single
 - id: '1666820649282'
   alias: Lights - Gang beneden (on/off)
