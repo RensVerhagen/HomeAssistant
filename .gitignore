@@ -7,6 +7,8 @@
 # Do not ignore the following folders
 !config_files
 !integrations
+!.claude
+!.claude/**
 
 # Do not ignore the following files
 !*.html
