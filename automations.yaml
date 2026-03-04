@@ -1574,7 +1574,7 @@
       minutes: 0
       seconds: 5
       milliseconds: 0
-  - action: notify.rens_telegram
+  - action: notify.ha_thuis_group
     metadata: {}
     data:
       message: Notification
