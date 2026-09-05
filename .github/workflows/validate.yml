@@ -54,6 +54,10 @@ jobs:
           cp GoogleAssistant-key_dummy.json GoogleAssistant-key.json
           touch home-assistant_v2.db home-assistant.log
 
-      - name: Create expected Home Assistant runtime directories`r`n        shell: bash`r`n        run: sudo mkdir -p /media/cameras`r`n`r`n      - name: Validate Home Assistant configuration
+      - name: Create expected Home Assistant runtime directories
+        shell: bash
+        run: sudo mkdir -p /media/cameras
+
+      - name: Validate Home Assistant configuration
         shell: bash
         run: python -m homeassistant --script check_config --config .
