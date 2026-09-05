@@ -46,6 +46,7 @@ jobs:
         run: |
           python -m pip install --disable-pip-version-check "homeassistant==$(tr -d '[:space:]' < .HA_VERSION)"
           python -m pip install --disable-pip-version-check aiodns==3.6.1 pycares==4.11.0
+          python -m pip install --disable-pip-version-check colorlog==6.10.1
       - name: Provide CI-only dummy credentials
         shell: bash
         run: |
