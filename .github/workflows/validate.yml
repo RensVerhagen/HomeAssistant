@@ -1,0 +1,58 @@
+name: Validate Home Assistant configuration
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: validate-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  home-assistant-config:
+    name: Home Assistant configuration
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Check Git whitespace errors
+        shell: bash
+        run: git -c core.whitespace=cr-at-eol diff --check "${{ github.event.before }}" "${{ github.sha }}" || git -c core.whitespace=cr-at-eol diff --check
+
+      - name: Ensure private/runtime files are not tracked
+        shell: bash
+        run: |
+          forbidden=$(git ls-files | grep -E '(^|/)(secrets\.yaml|GoogleAssistant-key\.json|\.storage(/|$)|\.google\.token$)' || true)
+          if [ -n "$forbidden" ]; then
+            echo "Forbidden private/runtime files are tracked:"
+            echo "$forbidden"
+            exit 1
+          fi
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+          cache: pip
+
+      - name: Install the pinned Home Assistant version
+        shell: bash
+        run: python -m pip install --disable-pip-version-check "homeassistant==$(tr -d '[:space:]' < .HA_VERSION)"
+
+      - name: Provide CI-only dummy credentials
+        shell: bash
+        run: |
+          cp secrets_dummy.yaml secrets.yaml
+          cp GoogleAssistant-key_dummy.json GoogleAssistant-key.json
+          touch home-assistant_v2.db home-assistant.log
+
+      - name: Validate Home Assistant configuration
+        shell: bash
+        run: python -m homeassistant --script check_config --config .

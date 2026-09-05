@@ -40,3 +40,6 @@ go2rtc.yaml
 
 # Ignore the following files as these get updated by Home Assistant
 home-assistant.log
+
+# Local Codex/Claude permissions; never publish machine-specific settings.
+.claude/settings.local.json

@@ -36,3 +36,9 @@ Configuration is split into focused files included from `configuration.yaml`:
 ## Language
 
 UI, TTS, and automation names are in Dutch (`nl`).
+
+## Development and deployment
+
+The production branch is `main`. Work on a `feature/*` branch, open a pull request, and squash-merge only after the **Home Assistant configuration** check passes. The Home Assistant Git pull app on the NUC polls `main` and deploys approved changes locally; the SMB share is not used as a Git working copy.
+
+See [CONTRIBUTING.md](CONTRIBUTING.md) for the branch, security, and rollback workflow.
