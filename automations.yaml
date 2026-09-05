@@ -1583,3 +1583,13 @@
         - file: /media/cameras/mower_snapshot.jpg
           caption: De grasmaaier start over 15 minuten
   mode: single
+- id: '1765828847047'
+  alias: Lights - Overkapping (purpose beta)
+  description: ''
+  use_blueprint:
+    path: homeassistant/motion_light.yaml
+    input:
+      motion_entity: binary_sensor.extra_motion_detected
+      light_target:
+        area_id: overkapping
+      no_motion_wait: 240

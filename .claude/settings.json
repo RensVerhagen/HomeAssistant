@@ -18,6 +18,14 @@
       "Bash(tail*)",
       "Bash(wc*)"
     ],
-    "deny": []
+    "deny": [
+      "Read(./secrets.yaml)",
+      "Read(//192.168.1.23/config/secrets.yaml)",
+      "Bash(cat*secrets.yaml*)",
+      "Bash(head*secrets.yaml*)",
+      "Bash(tail*secrets.yaml*)",
+      "Bash(grep*secrets.yaml*)",
+      "Bash(rg*secrets.yaml*)"
+    ]
   }
 }
